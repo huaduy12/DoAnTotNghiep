@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Chi tiết câu hỏi</title>
+    <th:block th:replace="fragment/header :: html_head"></th:block>
+
+    <style>
+        .dropdown-item{
+            width: -webkit-fill-available;
+        }
+        .container .row p{
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      .wrapper {
+    display: flex;
+    justify-content: center; /* Canh giữa theo chiều ngang */
+    align-items: center; /* Canh giữa theo chiều dọc */
+    flex-wrap: wrap; /* Cho phép các phần tử con xuống dòng khi không đủ chỗ */
+}
+        .media-wrapper {
+    width: 100%; /* Chiếm 60% chiều rộng */
+    margin: 10px auto; /* Canh ra giữa */
+    text-align: center; /* Căn giữa nội dung trong media-wrapper */
+}
+
+.media-item {
+    max-width: 100%; /* Đảm bảo ảnh không vượt quá 100% chiều rộng của media-wrapper */
+}
+
+
+.answer-option {
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.answer-label {
+  width: 30px;
+  height: 30px;
+  background-color: #ccc;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  margin-right: 10px;
+  margin-bottom: 0px;
+}
+
+.result-icon-incorrect {
+  font-size: 18px;
+ color: red;
+}
+.result-icon-correct {
+  font-size: 18px;
+  color: #04b12f;
+}
+.answer-option .incorrect {
+  background-color: red;
+  color: #fff;
+}
+
+.answer-option .correct {
+  background-color: #04b12f;
+  color: #fff;
+}
+
+.answer-input {
+  margin-right: 10px;
+  cursor: pointer;
+}
+    </style>
+
+</head>
+
+<body>
+
+    <!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+        </div>
+    </div>
+    <!--*******************
+        Preloader end
+    ********************-->
+
+    
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        <div th:replace="fragment/header :: nav_header">
+        </div>
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+
+        <!--**********************************
+            Header start
+        ***********************************-->
+        <div th:replace="fragment/header :: header">
+        </div>
+        <!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+        <!--**********************************
+            Sidebar start
+        ***********************************-->
+        <div th:replace="fragment/header :: nk_sidebar"></div>
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+
+        <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+
+            <div class="row page-titles mx-0">
+                <div class="col p-md-0">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Bảng điều khiển</a></li>
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Chi tiết câu hỏi</a></li>
+                    </ol>
+                </div>
+            </div>
+            <!-- row -->
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- start -->
+                                
+                                    <div class="row gy-4 mb-5 text-justify">
+                                        <h5 class="mt-5" th:text="${questionPhotoDto.name}"></h5>
+                                        <hr style="padding-right: 0px; padding-left: 0px;">
+                                        <p class="fw-semi-bold">Look at the picture and listen to the sentences. Choose the sentence that best describes the picture:</p>
+                                      
+                                         <div class="container mt-4">
+                                            <div class="wrraper">
+                                                <div class="media-wrapper">
+                                                    <img style="width: 40%;" th:src="${questionPhotoDto.getImage().getLink()}" alt="" class="media-item">
+                                                </div>
+                                                <div class="media-wrapper">
+                                                    <audio style="height: 50px;" controls class="media-item">
+                                                        <source th:src="${questionPhotoDto.getAudio().getLink()}" type="audio/mpeg">
+                                                    </audio>
+                                                </div>
+                                            </div>
+                                             <input type="hidden" id="index-correct" th:value="${questionPhotoDto.getAnswerCorrect()}">
+                                              <h5 class="fw-semi-bold">Question: </h5>
+                                              <div class="container">
+                                                  <div class="row mt-1" th:each="answer,iterStat :${questionPhotoDto.getAnswers()}">
+                                                      <div class="col-md-12">
+                                                          <div class="answer-option" >
+                                                              <input type="radio" th:name="answer" th:id="'option' + ${#strings.toString(iterStat.index + 65)}" class="answer-input" th:value="${#strings.toString(iterStat.index + 65)}">
+                                                              <label th:for="'option' + ${#strings.toString(iterStat.index + 65)}" class="answer-label" th:text="${#strings.toString(iterStat.index + 65)}"></label>
+                                                              <span class="span-label" th:text="${answer}"><i class="fa fa-check" aria-hidden="true"></i></span>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+
+                                              </div>  
+                                         </div>
+                                                   
+                                    </div>
+                               
+                                <!-- end -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #/ container -->
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+        
+        
+        <!--**********************************
+            Footer start
+        ***********************************-->
+        <div th:replace="fragment/footer :: footer">
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->
+    </div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <script th:src="@{/plugins/common/common.min.js}"></script>
+    <script th:src="@{/js/custom.min.js}"></script>
+    <script th:src="@{/js/settings.js}"></script>
+    <script th:src="@{/js/gleek.js}"></script>
+    <script th:src="@{/js/styleSwitcher.js}"></script>
+
+    <script th:src="@{/plugins/tables/js/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/plugins/tables/js/datatable/dataTables.bootstrap4.min.js}"></script>
+    <script th:src="@{/plugins/tables/js/datatable-init/datatable-basic.min.js}"></script>
+
+    <!-- <script src="../js/on-tap/photo.js"></script> -->
+   <script>
+       const answerLabels = document.querySelectorAll('.answer-label');
+
+       answerLabels.forEach((label, index) => {
+           const optionChar = String.fromCharCode(65 + index);
+           label.textContent = optionChar;
+       });
+
+       const indexCorrect = document.getElementById("index-correct").value;
+       answerLabels.forEach((label, index) => {
+          if((index+1) ==indexCorrect){
+              label.classList.add("correct");
+          }
+       });
+       const spanLabels = document.querySelectorAll('.span-label');
+       spanLabels.forEach((label, index) => {
+           if((index+1) ==indexCorrect){
+               label.classList.add("result-icon-correct");
+           }
+       });
+
+
+   </script>
+ 
+</body>
+
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Quản lý các tài liệu và tin tức</title>
+    <th:block th:replace="fragment/header :: html_head"></th:block>
+
+
+    <style>
+        .dropdown-item{
+            width: -webkit-fill-available;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+        </div>
+    </div>
+    <!--*******************
+        Preloader end
+    ********************-->
+
+    
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        <div th:replace="fragment/header :: nav_header">
+        </div>
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+
+        <!--**********************************
+            Header start
+        ***********************************-->
+        <div th:replace="fragment/header :: header">
+        </div>
+        <!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+        <!--**********************************
+            Sidebar start
+        ***********************************-->
+        <div th:replace="fragment/header :: nk_sidebar"></div>
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+
+        <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+
+            <div class="row page-titles mx-0">
+                <div class="col p-md-0">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Bảng điều khiển</a></li>
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Quản lý tin tức</a></li>
+                    </ol>
+                </div>
+            </div>
+            <!-- row -->
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                               
+                                <div class="row">
+                                    <div class="col-2">
+                                        <button type="button" class="btn btn-info ml-4" onclick="window.location.href='/admin/manage-news/add'">
+                                            Thêm tin tức </button>
+                                    </div>
+                                    
+                                </div>
+                               
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered zero-configuration">
+                                        <thead>
+                                            <tr>
+                                                <th>STT</th>
+                                                <th>Tên</th>
+                                                <th>Ảnh</th>
+                                                <th>Người tạo</th>
+                                                <th>Số người đọc</th>
+                                                <th>Chức năng</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="news,start : ${newsDto}">
+                                                <td th:text="${start.count}"></td>
+                                                <td th:text="${news.name}"></td>
+                                                <td><img th:src="${news.linkImage}" alt=""></td>
+                                                <td th:text="${news.createdBy}"></td>
+                                                <td th:text="${news.numberAccess}"></td>
+                                                <td>
+                                                    <div class="btn-group" role="group">
+                                                        <button type="button" class="btn mb-1 btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Chức năng</button>
+                                                        <div class="dropdown-menu" th:data-id="${news.id}">
+                                                            <a type="button" class="dropdown-item btn btn-primary edit-button" th:href="@{/admin/manage-news/detail/{id}(id=${news.id})}"
+                                                            >Xem chi tiết</a>
+                                                            <a type="button" class="dropdown-item btn btn-primary edit-button" th:href="@{/admin/manage-news/{id}(id=${news.id})}">
+                                                                Cập nhập
+                                                            </a>
+                                                            <button type="button" class="dropdown-item btn btn-primary delete-button" data-toggle="modal" data-target="#modalDelete"
+                                                                    >Xóa</button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+        
+                                            </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #/ container -->
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+        
+        
+        <!--**********************************
+            Footer start
+        ***********************************-->
+        <div th:replace="fragment/footer :: footer">
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->
+    </div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+<!-- Modal -->
+<!--<div class="modal fade" id="modalAddEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+<!--    <div class="modal-dialog" role="document">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <h5 class="modal-title" id="exampleModalLabel">Chọn loại câu hỏi muốn thêm</h5>-->
+<!--                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>-->
+<!--                </button>-->
+<!--            </div>-->
+<!--        <form>-->
+<!--            <div class="modal-body">-->
+<!--                <div class="form-group">-->
+<!--                    <label >Chọn mức độ:</label>-->
+<!--                    <select id="inputState" class="form-control">-->
+<!--                        <option selected="selected">Vui lòng chọn...</option>-->
+<!--                        <option>350</option>-->
+<!--                        <option>500</option>-->
+<!--                        <option>750</option>-->
+<!--                    </select>-->
+<!--                  </div>-->
+
+<!--                  <div class="form-group">-->
+<!--                    <label >Chọn kỹ năng:</label>-->
+<!--                    <select id="inputState" class="form-control">-->
+<!--                        <option selected="selected">Vui lòng chọn...</option>-->
+<!--                        <option>PHOTO</option>-->
+<!--                        <option>QUESTION-RESPONE</option>-->
+<!--                        <option>TEXT-COMPLETION</option>-->
+<!--                    </select>-->
+<!--                  </div>-->
+<!--                  -->
+<!--                 -->
+<!--            </div>-->
+<!--            <div class="modal-footer">-->
+<!--                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>-->
+<!--                <button type="button" class="btn btn-primary">Tiếp tục</button>-->
+<!--            </div>-->
+<!--        </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<div class="modal fade" id="modalDelete">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Xác nhận</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">Bạn có chắc chắn muốn xóa không ?</div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
+                <form method="post" th:action="@{/admin/manage-news/delete}">
+                    <input type="hidden" id="id-delete" name="idDelete"/>
+                    <button type="submit" class="btn btn-primary">Đồng ý</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        $(document).ready(function () {
+            $(".delete-button").click(function () {
+                let id = $(this).parent().data("id")
+                $("#id-delete").val(id)
+            });
+
+        });
+    </script>
+
+    <script th:src="@{/plugins/toastr/js/toastr.min.js}"></script>
+    <script th:src="@{/plugins/toastr/js/toastr.init.js}"></script>
+
+
+    <script th:inline="javascript" th:if="${changeSuccess != null}">
+        toastr.success("Thay đổi thành công", "Thành công", {
+            timeOut: 5e3,
+            closeButton: !0,
+            debug: !1,
+            newestOnTop: !0,
+            progressBar: !0,
+            positionClass: "toast-top-right",
+            preventDuplicates: !0,
+            onclick: null,
+            showDuration: "2000",
+            hideDuration: "1000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+            tapToDismiss: !1
+        });
+    </script>
+
+    <script th:inline="javascript" th:if="${changeFail != null}">
+        toastr.error("Thay đổi thất bại", "Thất bại", {
+            timeOut: 5e3,
+            closeButton: !0,
+            debug: !1,
+            newestOnTop: !0,
+            progressBar: !0,
+            positionClass: "toast-top-right",
+            preventDuplicates: !0,
+            onclick: null,
+            showDuration: "1000",
+            hideDuration: "1000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+            tapToDismiss: !1
+        });
+    </script>
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <script th:src="@{/plugins/common/common.min.js}"></script>
+    <script th:src="@{/js/custom.min.js}"></script>
+    <script th:src="@{/js/settings.js}"></script>
+    <script th:src="@{/js/gleek.js}"></script>
+    <script th:src="@{/js/styleSwitcher.js}"></script>
+
+    <script th:src="@{/plugins/tables/js/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/plugins/tables/js/datatable/dataTables.bootstrap4.min.js}"></script>
+    <script th:src="@{/plugins/tables/js/datatable-init/datatable-basic.min.js}"></script>
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Quản lý câu hỏi</title>
+    <th:block th:replace="fragment/header :: html_head"></th:block>
+
+
+    <style>
+        .dropdown-item{
+            width: -webkit-fill-available;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+        </div>
+    </div>
+    <!--*******************
+        Preloader end
+    ********************-->
+
+    
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        <div th:replace="fragment/header :: nav_header">
+        </div>
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+
+        <!--**********************************
+            Header start
+        ***********************************-->
+        < <div th:replace="fragment/header :: header">
+    </div>
+        <!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+        <!--**********************************
+            Sidebar start
+        ***********************************-->
+        <div th:replace="fragment/header :: nk_sidebar"></div>
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+
+        <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+
+            <div class="row page-titles mx-0">
+                <div class="col p-md-0">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Bảng điều khiển</a></li>
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Quản lý câu hỏi</a></li>
+                    </ol>
+                </div>
+            </div>
+            <!-- row -->
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                               
+                                <div class="row">
+                                    <div class="col-2">
+                                        <button type="button" class="btn btn-info ml-4" data-toggle="modal" data-target="#modalAddEdit">
+                                            Thêm câu hỏi </button>
+                                    </div>
+
+                                </div>
+                               
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered zero-configuration">
+                                        <thead>
+                                            <tr>
+                                                <th>Tên câu hỏi</th>
+                                                <th>Mức độ</th>
+                                                <th>Loại kỹ năng</th>
+                                                <th>Loại câu hỏi</th>
+                                                <th>Người tạo</th>
+                                                <th>Chức năng</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="question :${questions}">
+                                                <td th:text="${question.name}"></td>
+                                                <td th:text="${question.level}"></td>
+                                                <td th:text="${question.typeSkill}">PHOTO</td>
+                                                <td th:text="${question.typeQuestion == 1 ? 'ON TAP' : 'THI'}"></td>
+                                                <td th:text="${question.createdBy}"></td>
+                                                <td>
+                                                    <div class="btn-group" role="group">
+                                                        <button type="button" class="btn mb-1 btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Chức năng</button>
+                                                        <div class="dropdown-menu" th:data-id="${question.id}">
+                                                            <a type="button" class="dropdown-item btn btn-primary detail-button" th:href="@{/admin/manage-question/question/{id}(id=${question.id})}"
+                                                            >Xem chi tiết</a>
+                                                            <a type="button" class="dropdown-item btn btn-primary edit-button" th:href="@{/admin/manage-question/update/{id}(id=${question.id})}"
+                                                            >Cập nhập</a>
+                                                            <button type="button" class="dropdown-item btn btn-primary delete-button" data-toggle="modal" data-target="#modalDelete"
+                                                                   >Xóa</button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #/ container -->
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+        
+        
+        <!--**********************************
+            Footer start
+        ***********************************-->
+        <div th:replace="fragment/footer :: footer">
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->
+    </div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+<!-- Modal -->
+<div class="modal fade" id="modalAddEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Chọn loại câu hỏi muốn thêm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <form id="myForm" method="post" th:action="@{/admin/manage-question/question}" th:object="${choiceQuestionDto}">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label >Chọn mức độ:</label>
+                    <select id="option-level" class="form-control" th:field="*{levelToeic}">
+                        <option selected="selected" value="">Vui lòng chọn...</option>
+                        <option value="400">400</option>
+                        <option value="550">550</option>
+                        <option value="550">700</option>
+                        <option value="850">850</option>
+                    </select>
+                    <p id="error-level" class="text-danger" style="display: none">Vui lòng chọn mức độ.</p>
+                  </div>
+
+                  <div class="form-group">
+                    <label >Chọn kỹ năng:</label>
+                    <select id="option-skill" class="form-control" th:field="*{skillToeic}">
+                        <option selected="selected" value="">Vui lòng chọn...</option>
+                        <option value="photo">PHOTO</option>
+                        <option value="question_response">QUESTION-RESPONSE</option>
+                        <option value="short_conversation">SHORT-CONVERSATION</option>
+                        <option value="short_talk">SHORT-TALK</option>
+                        <option value="incomplete_sentence">INCOMPLETE-SENTENCE</option>
+                        <option value="text_completion">TEXT-COMPLETION</option>
+                        <option value="single_passage">SINGLE-PASSAGE</option>
+                        <option value="double_passage">DOUBLE-PASSAGE</option>
+                    </select>
+                      <p id="error-skill" class="text-danger" style="display: none">Vui lòng chọn kỹ năng.</p>
+                  </div>
+
+                 <div class="form-group">
+                    <label >Câu hỏi danh cho:</label>
+                    <select id="inputState2" class="form-control" th:field="*{typeQuestion}">
+                        <option selected="selected" value="">Vui lòng chọn...</option>
+                        <option value="1">Ôn tập</option>
+                        <option value="2">Thi</option>
+                    </select>
+                     <p id="error-state2" class="text-danger" style="display: none">Vui lòng chọn loại câu hỏi</p>
+                 </div>
+                  
+                 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="submit" id="submitButton" class="btn btn-primary">Tiếp tục</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalDelete">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Xác nhận</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">Bạn có chắc chắn muốn xóa không ?</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
+                <form method="post" th:action="@{/admin/manage-question/delete}">
+                    <input type="hidden" id="id-delete" name="idDelete"/>
+                    <button type="submit" class="btn btn-primary">Đồng ý</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script th:src="@{/plugins/toastr/js/toastr.min.js}"></script>
+    <script th:src="@{/plugins/toastr/js/toastr.init.js}"></script>
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <script th:src="@{/plugins/common/common.min.js}"></script>
+    <script th:src="@{/js/custom.min.js}"></script>
+    <script th:src="@{/js/settings.js}"></script>
+    <script th:src="@{/js/gleek.js}"></script>
+    <script th:src="@{/js/styleSwitcher.js}"></script>
+
+    <script th:src="@{/plugins/tables/js/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/plugins/tables/js/datatable/dataTables.bootstrap4.min.js}"></script>
+    <script th:src="@{/plugins/tables/js/datatable-init/datatable-basic.min.js}"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $(".delete-button").click(function () {
+                let id = $(this).parent().data("id")
+                $("#id-delete").val(id)
+            });
+
+        });
+    </script>
+
+    <script>
+        document.getElementById('myForm').addEventListener('submit', function(event) {
+            var level = document.getElementById('option-level').value;
+            var skill = document.getElementById('option-skill').value;
+            var state2 = document.getElementById('inputState2').value;
+
+            var isValid = true;
+
+            if (level === "") {
+                document.getElementById('error-level').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('error-level').style.display = 'none';
+            }
+
+            if (skill === "") {
+                document.getElementById('error-skill').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('error-skill').style.display = 'none';
+            }
+
+            if (state2 === "") {
+                document.getElementById('error-state2').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('error-state2').style.display = 'none';
+            }
+
+            if (isValid) {
+                // // Xây dựng URL tùy chỉnh
+                // var baseUrl = '/admin/manage-question/question';
+                // var queryParams = `?level=${encodeURIComponent(level)}&skill=${encodeURIComponent(skill)}&type=${encodeURIComponent(state2)}`;
+                // console.log(queryParams)
+                // var customUrl = baseUrl + queryParams;
+                //
+                // // Cập nhật thuộc tính action của form
+                // // Cập nhật thuộc tính action của form
+                // document.getElementById('myForm').action = customUrl;
+                //
+                // // Gửi form sau khi cập nhật action
+                // document.getElementById('myForm').submit();
+            } else {
+                event.preventDefault(); // Ngăn chặn việc gửi form nếu không hợp lệ
+            }
+        });
+
+
+        function validateSelectOptions() {
+            var level = document.getElementById('option-level').value;
+            var skill = document.getElementById('option-skill').value;
+            var state2 = document.getElementById('inputState2').value;
+
+            var isValid = true;
+
+            if (level === "") {
+                document.getElementById('error-level').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('error-level').style.display = 'none';
+            }
+
+            if (skill === "") {
+                document.getElementById('error-skill').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('error-skill').style.display = 'none';
+            }
+
+            if (state2 === "") {
+                document.getElementById('error-state2').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('error-state2').style.display = 'none';
+            }
+
+        }
+
+        document.getElementById('option-level').addEventListener('change', validateSelectOptions);
+        document.getElementById('option-skill').addEventListener('change', validateSelectOptions);
+        document.getElementById('inputState2').addEventListener('change', validateSelectOptions);
+    </script>
+
+
+    <script th:inline="javascript" th:if="${deleteFailExam != null}">
+        toastr.error("Xóa thất bại", "Câu hỏi đã được sử dụng cho đề thi nên không được xóa", {
+            timeOut: 5e3,
+            closeButton: !0,
+            debug: !1,
+            newestOnTop: !0,
+            progressBar: !0,
+            positionClass: "toast-top-right",
+            preventDuplicates: !0,
+            onclick: null,
+            showDuration: "1000",
+            hideDuration: "1000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+            tapToDismiss: !1
+        });
+    </script>
+
+    <script th:inline="javascript" th:if="${deleteFailExercise != null}">
+        toastr.error("Xóa thất bại", "Câu hỏi đã được sử dụng cho bài ôn tập nên không được xóa", {
+            timeOut: 5e3,
+            closeButton: !0,
+            debug: !1,
+            newestOnTop: !0,
+            progressBar: !0,
+            positionClass: "toast-top-right",
+            preventDuplicates: !0,
+            onclick: null,
+            showDuration: "1000",
+            hideDuration: "1000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+            tapToDismiss: !1
+        });
+    </script>
+
+    <script th:inline="javascript" th:if="${deleteFail != null}">
+        toastr.error("Xóa thất bại", "Xóa thất bại do không tìm thấy câu hỏi", {
+            timeOut: 5e3,
+            closeButton: !0,
+            debug: !1,
+            newestOnTop: !0,
+            progressBar: !0,
+            positionClass: "toast-top-right",
+            preventDuplicates: !0,
+            onclick: null,
+            showDuration: "1000",
+            hideDuration: "1000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+            tapToDismiss: !1
+        });
+    </script>
+
+    <script th:inline="javascript" th:if="${deleteSuccess != null}">
+        toastr.success("Xóa thành công", "Thành công", {
+            timeOut: 5e3,
+            closeButton: !0,
+            debug: !1,
+            newestOnTop: !0,
+            progressBar: !0,
+            positionClass: "toast-top-right",
+            preventDuplicates: !0,
+            onclick: null,
+            showDuration: "2000",
+            hideDuration: "1000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+            tapToDismiss: !1
+        });
+    </script>
+
+
+    <script th:inline="javascript" th:if="${updateFail != null}">
+        toastr.error("Cập nhập thất bại ", "Thất bại", {
+            timeOut: 5e3,
+            closeButton: !0,
+            debug: !1,
+            newestOnTop: !0,
+            progressBar: !0,
+            positionClass: "toast-top-right",
+            preventDuplicates: !0,
+            onclick: null,
+            showDuration: "2000",
+            hideDuration: "1000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+            tapToDismiss: !1
+        });
+    </script>
+
+
+</body>
+
+</html>

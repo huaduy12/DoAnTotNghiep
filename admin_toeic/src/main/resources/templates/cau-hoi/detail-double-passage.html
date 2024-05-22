@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Chi tiết câu hỏi</title>
+    <th:block th:replace="fragment/header :: html_head"></th:block>
+    <style>
+        .dropdown-item{
+            width: -webkit-fill-available;
+        }
+        .container .row p{
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      .wrapper {
+    display: flex;
+    justify-content: center; /* Canh giữa theo chiều ngang */
+    align-items: center; /* Canh giữa theo chiều dọc */
+    flex-wrap: wrap; /* Cho phép các phần tử con xuống dòng khi không đủ chỗ */
+}
+        .media-wrapper {
+    width: 100%; /* Chiếm 60% chiều rộng */
+    margin: 10px auto; /* Canh ra giữa */
+    text-align: center; /* Căn giữa nội dung trong media-wrapper */
+}
+
+.media-item {
+    max-width: 100%; /* Đảm bảo ảnh không vượt quá 100% chiều rộng của media-wrapper */
+}
+
+
+.answer-option {
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.answer-label {
+  width: 30px;
+  height: 30px;
+  background-color: #ccc;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  margin-right: 10px;
+  margin-bottom: 0px;
+}
+
+.result-icon-incorrect {
+  font-size: 18px;
+ color: red;
+}
+.result-icon-correct {
+  font-size: 18px;
+  color: #04b12f;
+}
+.answer-option .incorrect {
+  background-color: red;
+  color: #fff;
+}
+
+.answer-option .correct {
+  background-color: #04b12f;
+  color: #fff;
+}
+
+.answer-input {
+  margin-right: 10px;
+  cursor: pointer;
+}
+    </style>
+
+</head>
+
+<body>
+
+    <!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+        </div>
+    </div>
+    <!--*******************
+        Preloader end
+    ********************-->
+
+    
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        <div th:replace="fragment/header :: nav_header">
+        </div>
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+
+        <!--**********************************
+            Header start
+        ***********************************-->
+        <div th:replace="fragment/header :: header">
+        </div>
+        <!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+        <!--**********************************
+            Sidebar start
+        ***********************************-->
+        <div th:replace="fragment/header :: nk_sidebar"></div>
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+
+        <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+
+            <div class="row page-titles mx-0">
+                <div class="col p-md-0">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Bảng điều khiển</a></li>
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Chi tiết câu hỏi</a></li>
+                    </ol>
+                </div>
+            </div>
+            <!-- row -->
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- start -->
+                                
+                                    <div class="row gy-4 mb-5 text-justify">
+                                        <div  class="col-12">
+                                            <p class="fw-semi-bold">Choose the word or phrase that best completes the blanks:</p>
+                                        </div>
+                                        <div  class="col-12">
+                                            <h5 th:text="'Tên câu hỏi: ' +${questionPhotoDto.name}"></h5>
+                                        </div>
+
+                                         <div class="container mt-4">
+
+                                            <div id="answer-content" class="alert alert-warning" th:utext="${questionPhotoDto.getDescription()}">
+
+                                            </div>  
+                                             
+                                              <div class="container" th:each="question,start : ${questionPhotoDto.getQuestions()}">
+                                                <input type="hidden" class="index-correct" th:value="${question.getAnswerCorrect()}">
+                                                <h5 class="fw-semi-bold" th:text="'Question ' + ${start.index +1} + ': ' + ${question.getName()}" ></h5>
+                                                <div class="row mt-1" th:each="answer, index : ${question.getAnswers()}">
+                                                  <div class="col-md-12">
+                                                    <div class="answer-option">
+                                                      <input type="radio" name="answer" id="optionA" class="answer-input">
+                                                      <label for="optionA" class="answer-label">A</label>
+                                                      <span th:text="${answer}"></span>
+                                                      
+                                                    </div>
+                                                  </div>
+                                                </div>
+
+                                              </div>  
+
+
+                                         </div>
+                                                   
+                                    </div>
+                               
+                                <!-- end -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #/ container -->
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+        
+        
+        <!--**********************************
+            Footer start
+        ***********************************-->
+        <div th:replace="fragment/footer :: footer">
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->
+    </div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <script th:src="@{/plugins/common/common.min.js}"></script>
+    <script th:src="@{/js/custom.min.js}"></script>
+    <script th:src="@{/js/settings.js}"></script>
+    <script th:src="@{/js/gleek.js}"></script>
+    <script th:src="@{/js/styleSwitcher.js}"></script>
+
+    <script th:src="@{/plugins/tables/js/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/plugins/tables/js/datatable/dataTables.bootstrap4.min.js}"></script>
+    <script th:src="@{/plugins/tables/js/datatable-init/datatable-basic.min.js}"></script>
+    <!-- <script src="../js/on-tap/photo.js"></script> -->
+
+ <script>
+     document.addEventListener('DOMContentLoaded', () => {
+         const questionContainers = document.querySelectorAll('.container');
+
+         questionContainers.forEach((container, questionIndex) => {
+             const answerLabels = container.querySelectorAll('.answer-label');
+             const indexCorrect = container.querySelector('.index-correct').value;
+
+             answerLabels.forEach((label, answerIndex) => {
+                 const optionChar = String.fromCharCode(65 + answerIndex);
+                 label.textContent = optionChar;
+                 if (answerIndex == indexCorrect - 1) {
+                     label.classList.add("correct");
+                 }
+             });
+
+             const spanLabels = container.querySelectorAll('.span-label');
+             spanLabels.forEach((label, spanIndex) => {
+                 if (spanIndex == indexCorrect - 1) {
+                     label.classList.add("result-icon-correct");
+                 }
+             });
+         });
+     });
+
+ </script>
+</body>
+
+</html>

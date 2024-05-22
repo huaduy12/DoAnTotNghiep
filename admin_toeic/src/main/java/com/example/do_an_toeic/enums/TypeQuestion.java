@@ -1,0 +1,24 @@
+package com.example.do_an_toeic.enums;
+
+import lombok.Getter;
+import lombok.Setter;
+
+
+public enum TypeQuestion {
+    TYPE_EXERCISE(1),
+    TYPE_EXAM(2);
+
+    private int value;
+
+    TypeQuestion(int value) {
+        this.value = value;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+}

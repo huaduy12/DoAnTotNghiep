@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>Thêm tài liệu luyện thi</title>
+    <!-- Favicon icon -->
+
+    <!-- Custom Stylesheet -->
+    <th:block th:replace="fragment/header :: html_head"></th:block>
+
+
+    <style>
+        .dropdown-item{
+            width: -webkit-fill-available;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+        </div>
+    </div>
+    <!--*******************
+        Preloader end
+    ********************-->
+
+    
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        <div th:replace="fragment/header :: nav_header">
+        </div>
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+
+        <!--**********************************
+            Header start
+        ***********************************-->
+        <div th:replace="fragment/header :: header">
+        </div>
+        <!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+        <!--**********************************
+            Sidebar start
+        ***********************************-->
+        <div th:replace="fragment/header :: nk_sidebar"></div>
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+
+        <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+
+            <div class="row page-titles mx-0">
+                <div class="col p-md-0">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Bảng điều khiển</a></li>
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Tài liệu luyện thi</a></li>
+                    </ol>
+                </div>
+            </div>
+            <!-- row -->
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                              <form method="post" th:action="@{/admin/manage-related-document/save}" th:object="${relatedDocumentDto}" enctype="multipart/form-data">
+                                <div class="d-flex justify-content-end">
+                                    <button type="button" class="btn btn-danger" onclick="window.location.href='/admin/manage-related-document'">
+                                        Hủy </button>
+                                    <button type="submit" id="submitButton" class="btn btn-info ml-4">
+                                        Lưu tài liệu </button>
+                               </div>
+
+                            <div class="row align-items-center">
+                                     
+                             <div class="col-12" id="wrapper">
+                                <div class="wrapper-question my-3">
+                                    <input type="hidden" th:field="*{id}" class="form-control">
+                                    <div class="form-group row">
+                                            <label class="col-lg-2 col-form-label fw-bold" for="name-news">Tên tài liệu: <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-lg-7">
+                                                <input type="text" th:field="*{name}" class="form-control" id="name-news" placeholder="Tên tin tức">
+                                                <p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+
+                                            </div>
+                                        </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label fw-bold col-lg-2" id = "labelLevelToeic" >Mức độ tài liệu: </label>
+                                        <select id="inputLevelToeic" class="form-control col-lg-3 mx-3" th:field="*{levelToeic}">
+                                            <option value="" selected="selected">Vui lòng chọn...</option>
+                                            <option data-id="1" value="400">Mức độ 400+</option>
+                                            <option data-id="2" value="550">Mức độ 550+</option>
+                                            <option data-id="3" value="700">Mức độ 700+</option>
+                                            <option data-id="4" value="850">Mức độ 850+</option>
+                                        </select>
+
+                                        <p class="text-danger" th:if="${#fields.hasErrors('levelToeic')}" th:errors="*{levelToeic}"></p>
+
+                                    </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-2 col-form-label fw-bold">Hình ảnh <span class="text-danger">*</span></label>
+                                            <div class="col-lg-5">
+                                                <input type="text" th:field="*{linkImage}" class="form-control" id="input-link" placeholder="Link ảnh">
+                                            </div>
+                                            <div class="col-lg-3 text-center">
+                                                <input type="file" th:field="*{fileImage}" class="btn mb-1 btn-rounded btn-success" id="input-file" style="width: inherit;" accept="image/*"><span class="btn-icon-left"></span>
+                                                <span class="btn-icon-left file-name my-1" id="span-file" th:text="${nameImage} ? ${nameImage} : 'No chosen' " >No chosen</span>
+                                                <input type="hidden" class="btn mb-1 btn-rounded btn-success" id="name-image" name ="nameImage" style="width: inherit;">
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-2 col-form-label fw-bold">Tiêu đề<span class="text-danger">*</span></label>
+                                            <div class="col-lg-8">
+                                                <textarea class="form-control" th:field="*{title}" id="title"  placeholder="Nhập tiêu đề"></textarea>
+                                                <p class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-2 col-form-label fw-bold">Mô tả chính<span class="text-danger">*</span></label>
+                                            <div class="col-lg-8">
+                                                <textarea class="form-control" th:field="*{description}" id="description" placeholder="Nhập mô tả"></textarea>
+                                            </div>
+                                        </div>
+                            
+                              </div>
+                             </div>
+                            </div>
+                               <!--end tab  -->
+                              </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #/ container -->
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+        
+        
+        <!--**********************************
+            Footer start
+        ***********************************-->
+        <div th:replace="fragment/footer :: footer">
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->
+    </div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+<!-- Modal -->
+<!--<div class="modal fade" id="modalAddEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+<!--    <div class="modal-dialog" role="document">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <h5 class="modal-title" id="exampleModalLabel">Chọn loại bài ôn tập muốn thêm</h5>-->
+<!--                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>-->
+<!--                </button>-->
+<!--            </div>-->
+<!--        <form>-->
+<!--            <div class="modal-body">-->
+<!--                <div class="form-group">-->
+<!--                    <label >Chọn mức độ:</label>-->
+<!--                    <select id="inputState" class="form-control">-->
+<!--                        <option selected="selected">Vui lòng chọn...</option>-->
+<!--                        <option>Option 1</option>-->
+<!--                        <option>Option 2</option>-->
+<!--                        <option>Option 3</option>-->
+<!--                    </select>-->
+<!--                  </div>-->
+<!--                  <div class="form-group">-->
+<!--                    <label >Chọn kỹ năng: </label>-->
+<!--                    <select id="input" class="form-control">-->
+<!--                        <option selected="selected">Vui lòng chọn...</option>-->
+<!--                        <option>Option 1</option>-->
+<!--                        <option>Option 2</option>-->
+<!--                        <option>Option 3</option>-->
+<!--                    </select>-->
+<!--                  </div>-->
+<!--                 -->
+<!--            </div>-->
+<!--            <div class="modal-footer">-->
+<!--                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>-->
+<!--                <button type="button" class="btn btn-primary">Tiếp tục</button>-->
+<!--            </div>-->
+<!--        </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<div class="modal fade" id="modalDelete">-->
+<!--    <div class="modal-dialog" role="document">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <h5 class="modal-title">Xác nhận</h5>-->
+<!--                <button type="button" class="close" data-dismiss="modal"><span>&times;</span>-->
+<!--                </button>-->
+<!--            </div>-->
+<!--            <div class="modal-body">Bạn có chắc chắn muốn xóa không ?</div>-->
+<!--            <div class="modal-footer">-->
+<!--                <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>-->
+<!--                <button type="button" class="btn btn-primary">Đồng ý</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <script th:src="@{/plugins/common/common.min.js}"></script>
+    <script th:src="@{/js/custom.min.js}"></script>
+    <script th:src="@{/js/settings.js}"></script>
+    <script th:src="@{/js/gleek.js}"></script>
+    <script th:src="@{/js/styleSwitcher.js}"></script>
+
+    <script th:src="@{/plugins/tables/js/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/plugins/tables/js/datatable/dataTables.bootstrap4.min.js}"></script>
+    <script th:src="@{/plugins/tables/js/datatable-init/datatable-basic.min.js}"></script>
+
+    <script th:src="@{/plugins/summernote/dist/summernote.min.js}"></script>
+    <script th:src="@{/plugins/summernote/dist/summernote-init.js}"></script>
+    <script th:src="@{/plugins/summernote/js/summernote-audio.js}"></script>
+
+    <!-- <script src="../js/cau-hoi/short-convesation.js"></script> -->
+
+    <script>
+        document.getElementById('input-file').addEventListener('change', function() {
+            var input = this;
+            var fileName = input.files[0].name;
+            document.getElementById('span-file').textContent = fileName;
+            document.getElementById('name-image').value = fileName;
+        });
+    </script>
+<!--    <script>-->
+<!--        $(document).ready(function() {-->
+<!--            $("#inputLevelToeic").hide();-->
+<!--            $("#labelLevelToeic").hide();-->
+<!--            $("#inputType").change(function() {-->
+<!--                var selectedType = $(this).val();-->
+<!--                if (selectedType == 2) {-->
+<!--                    $("#inputLevelToeic").show();-->
+<!--                    $("#labelLevelToeic").show();-->
+<!--                } else {-->
+<!--                    $("#inputLevelToeic").hide();-->
+<!--                    $("#labelLevelToeic").hide();-->
+<!--                }-->
+<!--            });-->
+<!--        });-->
+<!--    </script>-->
+
+   <script>
+     $(document).ready(function() {
+    // Khởi tạo Summernote cho các textarea có sẵn khi trang được tải
+    $('textarea').each(function() {
+        $(this).summernote({
+            // Các tùy chọn cấu hình cho Summernote
+        });
+    });
+
+    // Theo dõi các phần tử mới được thêm vào DOM
+    // document.body.addEventListener('DOMNodeInserted', function(event) {
+    //     var newNode = event.target;
+    //     if (newNode.nodeName === 'DIV' && newNode.classList.contains('wrapper-question')) {
+    //         $(newNode).find('textarea[name="description"]').summernote({
+    //             // Các tùy chọn cấu hình cho Summernote
+    //         });
+    //     }
+    // });
+});
+   </script>
+   
+ 
+</body>
+
+</html>

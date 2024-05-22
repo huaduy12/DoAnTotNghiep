@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>Xem chi tiết</title>
+    <th:block th:replace="fragment/header :: html_head"></th:block>
+
+    <style>
+
+        .container .row p{
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+
+        .media-wrapper {
+    width: 100%; /* Chiếm 60% chiều rộng */
+    margin: 10px auto; /* Canh ra giữa */
+    text-align: center; /* Căn giữa nội dung trong media-wrapper */
+}
+
+
+    </style>
+
+</head>
+
+<body>
+
+    <!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+        </div>
+    </div>
+    <!--*******************
+        Preloader end
+    ********************-->
+
+    
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        <div th:replace="fragment/header :: nav_header">
+        </div>
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+
+        <!--**********************************
+            Header start
+        ***********************************-->
+        <div th:replace="fragment/header :: header">
+        </div>
+        <!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+        <!--**********************************
+            Sidebar start
+        ***********************************-->
+        <div th:replace="fragment/header :: nk_sidebar"></div>
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+
+        <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+
+            <div class="row page-titles mx-0">
+                <div class="col p-md-0">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Bảng điều khiển</a></li>
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Xem chi tiết</a></li>
+                    </ol>
+                </div>
+            </div>
+            <!-- row -->
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- start -->
+                                
+                                    <div class="row gy-4 mb-5 text-justify">
+                                        <h3 class="mt-5" th:text="${selfLearningDto.name}"></h3>
+                                        <hr style="padding-right: 0px; padding-left: 0px;">
+                                        <p class="fw-semi-bold" th:utext="${selfLearningDto.title}"></p>
+                                      
+                                         <div class="container mt-4">
+                                            <div class="wrraper">
+                                                <div class="media-wrapper">
+                                                    <img style="width: 300px; height: 300px;" th:src="${selfLearningDto.linkImage}" alt="">
+                                                </div>
+                                            </div>
+                                            <div id="answer-content" class="alert " th:utext="${selfLearningDto.description}">
+
+                                            </div>  
+                                             
+                                         </div>
+                                                   
+                                    </div>
+                               
+                                <!-- end -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #/ container -->
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+        
+        
+        <!--**********************************
+            Footer start
+        ***********************************-->
+        <div th:replace="fragment/footer :: footer">
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->
+    </div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+
+
+
+
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <script th:src="@{/plugins/common/common.min.js}"></script>
+    <script th:src="@{/js/custom.min.js}"></script>
+    <script th:src="@{/js/settings.js}"></script>
+    <script th:src="@{/js/gleek.js}"></script>
+    <script th:src="@{/js/styleSwitcher.js}"></script>
+
+    <script th:src="@{/plugins/tables/js/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/plugins/tables/js/datatable/dataTables.bootstrap4.min.js}"></script>
+    <script th:src="@{/plugins/tables/js/datatable-init/datatable-basic.min.js}"></script>
+    <!-- <script src="../js/on-tap/photo.js"></script> -->
+   
+ 
+</body>
+
+</html>

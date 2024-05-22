@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+    <title>Thông tin cá nhân</title>
+    <th:block th:replace="/fragment/header :: header"></th:block>
+    <style>
+        .custom-eye{
+            font-size: 20px;
+            padding: 15px;
+        }
+        .file-input + .file-label {
+          position: relative;
+          overflow: hidden;
+          cursor: pointer;
+        }
+
+        .file-input {
+          width: 0;
+          height: 0;
+          opacity: 0;
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+
+        .file-label {
+          width: 200px;
+          display: inline-block;
+          padding: 8px 12px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          transition: background-color 0.3s;
+        }
+
+        .file-label:hover {
+          background-color: #e9e9e9;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+
+   <!-- Navbar Start -->
+    <div th:replace="/fragment/header :: navbar "></div>
+ <!-- Navbar End -->
+
+
+    <!-- Header Start -->
+    <!-- <div class="container-fluid bg-primary py-5 mb-5 page-header">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <h1 class="display-3 text-white animated slideInDown">Tin tức</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a class="text-white" href="#">Trang chủ</a></li>
+                            <li class="breadcrumb-item text-white active" aria-current="page">Tin tức</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- Header End -->
+
+    <!--start profile -->
+    <!-- Profile 1 - Bootstrap Brain Component -->
+<section class="bg-light py-3 py-md-5 py-xl-8">
+  
+    <div class="container">
+      <div class="row gy-4 gy-lg-0">
+        <div class="col-12 col-lg-4 col-xl-3">
+          <div class="row gy-4">
+            <div class="col-12">
+              <div class="card widget-card border-light shadow-sm">
+                <div class="card-header text-bg-primary">Chào mừng, <span th:text="${profileDto.userName}"></span></div>
+                <div class="card-body">
+                  <div class="text-center mb-3">
+                    <img th:src="${profileDto.linkImage != null ? profileDto.linkImage : '/img/user.png'}" id="image-profile" class="img-fluid rounded-circle" alt="" style="height: 150px;width: 150px">
+
+
+                  </div>
+                  <h5 class="text-center mb-1" th:if="${profileDto.fullName}" th:text="${profileDto.fullName}"></h5>
+                  <ul class="list-group list-group-flush mb-4">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <h6 class="m-0">Bài tập</h6>
+                      <span>13</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <h6 class="m-0">Ôn tập</h6>
+                      <span>12</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <h6 class="m-0">Đề thi</h6>
+                      <span>2</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          
+          </div>
+        </div>
+        <div class="col-12 col-lg-8 col-xl-9">
+          <div class="card widget-card border-light shadow-sm">
+            <div class="card-body p-4">
+              <ul class="nav nav-tabs" id="profileTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Thông tin cá nhân</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#password-tab-pane" type="button" role="tab" aria-controls="password-tab-pane" aria-selected="false">Mật khẩu</button>
+                </li>
+              </ul>
+              <div class="tab-content pt-4" id="profileTabContent">
+                <div class="tab-pane fade show active" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                  <form action="#!" class="row gy-3 gy-xxl-4">
+                    <div class="col-12">
+                      <div class="row gy-2">
+                        <label class="col-12 form-label m-0">Ảnh cá nhân</label>
+<!--                        <div class="col-12">-->
+<!--                          <img src="https://bootstrapbrain.com/demo/components/profiles/profile-1/assets/img/profile-img-1.jpg" class="img-fluid" alt="Luna John">-->
+<!--                        </div>-->
+                        <div class="col-12">
+<!--                          <input type="file" class="d-inline-block bg-primary link-light lh-1 p-2 rounded">-->
+<!--                          <p class="d-inline-block">anh-net.jpg <i class="bi bi-upload"></i></p>-->
+
+
+                          <input type="file" class="btn mb-1 btn-rounded btn-success file-input" id="file-image" style="width: inherit;"><span class="btn-icon-left"  accept="image/jpeg, image/png, image/gif"></span>
+                          <label for="file-image" th:text="${profileDto.nameImage != null ? profileDto.nameImage : 'Chọn file'}" class="file-label" id="file-label"></label>
+                          <button type="button" class="d-inline-block btn btn-primary" id="upload-file">
+                            Upload
+                          </button>
+
+                        </div>
+                      </div>
+                    </div>
+
+                      <input type="hidden" class="form-control" id="id-user" th:value="${profileDto.id}">
+                    <div class="col-12 col-md-6">
+                      <label for="inputUserName" class="form-label">Tên đăng nhập</label>
+                      <input type="text" class="form-control" id="inputUserName" th:value="${profileDto.userName}">
+                        <small id="userNameError" class="text-danger"></small>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <label for="inputName" class="form-label">Họ và tên</label>
+                      <input type="text" class="form-control" id="inputName" th:value="${profileDto.fullName}">
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <label for="inputPhone" class="form-label">Số điện thoại</label>
+                      <input type="tel" class="form-control" id="inputPhone" th:value="${profileDto.phoneNumber}">
+                        <small id="phoneError" class="text-danger"></small>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <label for="inputEmail" class="form-label">Email</label>
+                      <input type="email" class="form-control" id="inputEmail" th:value="${profileDto.email}">
+                        <small id="emailError" class="text-danger"></small>
+                    </div>
+                    <div class="col-12">
+                      <button type="button" class="btn btn-primary" id="saveButton">Lưu thay đổi</button>
+                    </div>
+                  </form>
+                </div>
+                <div class="tab-pane fade" id="password-tab-pane" role="tabpanel" aria-labelledby="password-tab" tabindex="0">
+                    <div class="row gy-3 gy-xxl-4">
+                      <div class="col-12">
+                          <div class="form-outline mb-3 form-floating position-relative">
+                              <input  type="password" id="currentPassword" class="form-control form-control" placeholder="Nhập mật khẩu" />
+                              <label class="form-label" for="currentPassword">Mật khẩu</label>
+                              <i class="fa fa-eye position-absolute end-0 top-50 translate-middle-y custom-eye toggle-password" aria-hidden="true" style="cursor: pointer;"></i>
+                              <p class="text-danger mt-1" id="error-current-password"></p>
+
+                          </div>
+
+                          <div class="col-12">
+                              <div class="form-outline mb-3 form-floating position-relative">
+                                  <input  type="password" id="new-password" class="form-control form-control" placeholder="Nhập mật khẩu" />
+                                  <label class="form-label" for="new-password">Mật khẩu mới</label>
+                                  <i class="fa fa-eye position-absolute end-0 top-50 translate-middle-y custom-eye toggle-new-password" aria-hidden="true" style="cursor: pointer;"></i>
+                                  <p class="text-danger mt-1" id="error-new-password"></p>
+
+                              </div>
+                          </div>
+                          <div class="col-12">
+                                  <div class="form-outline mb-3 form-floating position-relative">
+                                      <input  type="password" id="re-password" class="form-control form-control" placeholder="Nhập mật khẩu" />
+                                      <label class="form-label" for="re-password">Xác nhận mật khẩu</label>
+                                      <i class="fa fa-eye position-absolute end-0 top-50 translate-middle-y custom-eye toggle-re-password" aria-hidden="true" style="cursor: pointer;"></i>
+                                      <p class="text-danger  mt-1" id="error-re-password"></p>
+                                  </div>
+                          </div>
+
+                      <div class="col-12">
+                        <button type="button" class="btn btn-primary" id="button-password">Thay đổi mật khẩu</button>
+                      </div>
+
+                    </div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </section>
+  <!-- end profile -->
+
+  
+
+    
+        
+
+    <!-- Footer Start -->
+    <div th:replace="/fragment/footer :: footer"></div>
+    <!-- Footer End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/lib/wow/wow.min.js}"></script>
+    <script th:src="@{/lib/easing/easing.min.js}"></script>
+    <script th:src="@{/lib/waypoints/waypoints.min.js}"></script>
+    <script th:src="@{/lib/owlcarousel/owl.carousel.min.js}"></script>
+
+    <!-- Template Javascript -->
+    <script th:src="@{/js/main.js}"></script>
+
+    <script>
+      $(document).ready(function() {
+        $("#file-image").change(function() {
+          var input = this;
+          var fileName = input.files[0].name;
+          // var fileName = $(this).val();
+          if (fileName) {
+            $(this).siblings("label").text(fileName);
+          } else {
+            $(this).siblings("label").text("Chọn file");
+          }
+        });
+      });
+    </script>
+
+    <script th:src="@{/plugins/toastr/js/toastr.min.js}"></script>
+    <script th:src="@{/plugins/toastr/js/toastr.init.js}"></script>
+
+    <script type="module">
+        import axios from 'https://cdn.skypack.dev/axios';
+        const usernameInput = document.getElementById('inputUserName');
+        const emailInput = document.getElementById('inputEmail');
+        const phoneInput = document.getElementById('inputPhone');
+        const saveButton = document.getElementById('saveButton');
+
+        function validateInput(input, errorId, regex, errorMessage) {
+            const value = input.value.trim();
+            const errorElement = document.getElementById(errorId);
+
+            if (value === '') {
+                errorElement.textContent = errorMessage;
+            } else if (!regex.test(value)) {
+                errorElement.textContent = errorMessage;
+            } else {
+                errorElement.textContent = '';
+            }
+        }
+
+        function validateInputPhoneNumber(input, errorId, regex, errorMessage) {
+            const value = input.value.trim();
+            const errorElement = document.getElementById(errorId);
+
+            if (value === '') {
+                errorElement.textContent = '';
+            } else if (!regex.test(value)) {
+                errorElement.textContent = errorMessage;
+            } else {
+                errorElement.textContent = '';
+            }
+        }
+
+        function createProfileData() {
+            const id = document.getElementById('id-user').value.trim();
+            const userName = usernameInput.value.trim();
+            const fullName = document.getElementById('inputName').value.trim();
+            const phoneNumber = phoneInput.value.trim();
+            const email = emailInput.value.trim();
+
+            return {
+                id,
+                userName,
+                fullName,
+                phoneNumber,
+                email
+            };
+        }
+
+
+        async function validateAndSave() {
+            const username = usernameInput.value.trim();
+            const email = emailInput.value.trim();
+            const phone = phoneInput.value.trim();
+
+            const isValid =
+                username !== '' &&
+                username.length >= 8 &&
+                email !== '' &&
+                /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) &&
+                (phone === '' || /^\d{10}$/.test(phone));
+
+            if (isValid) {
+                // Gửi API
+                const profileData = createProfileData();
+                await axios.post('/api/profile/update', profileData)
+                    .then(response => {
+                        updateFields(response.data);
+                        toastr.success("Thông tin đã được cập nhật", "Thành công", {
+                            timeOut: 10e3,
+                            closeButton: !0,
+                            debug: !1,
+                            newestOnTop: !0,
+                            progressBar: !0,
+                            positionClass: "toast-top-right",
+                            preventDuplicates: !0,
+                            onclick: null,
+                            showDuration: "5000",
+                            hideDuration: "5000",
+                            extendedTimeOut: "5000",
+                            showEasing: "swing",
+                            hideEasing: "linear",
+                            showMethod: "fadeIn",
+                            hideMethod: "fadeOut",
+                            tapToDismiss: !1
+                        });
+                    })
+                    .catch(error => {
+                        if (error.response) {
+                            // Xử lý lỗi từ phía máy chủ
+                            toastr.error(error.response.data, "Thất baị", {
+                                timeOut: 10e3,
+                                closeButton: !0,
+                                debug: !1,
+                                newestOnTop: !0,
+                                progressBar: !0,
+                                positionClass: "toast-top-right",
+                                preventDuplicates: !0,
+                                onclick: null,
+                                showDuration: "5000",
+                                hideDuration: "5000",
+                                extendedTimeOut: "5000",
+                                showEasing: "swing",
+                                hideEasing: "linear",
+                                showMethod: "fadeIn",
+                                hideMethod: "fadeOut",
+                                tapToDismiss: !1
+                            });
+                        } else {
+                            // Xử lý lỗi khác (ví dụ: không có kết nối mạng)
+                            toastr.error("Lỗi kết nối mạng", "Thất baị", {
+                                timeOut: 10e3,
+                                closeButton: !0,
+                                debug: !1,
+                                newestOnTop: !0,
+                                progressBar: !0,
+                                positionClass: "toast-top-right",
+                                preventDuplicates: !0,
+                                onclick: null,
+                                showDuration: "5000",
+                                hideDuration: "5000",
+                                extendedTimeOut: "5000",
+                                showEasing: "swing",
+                                hideEasing: "linear",
+                                showMethod: "fadeIn",
+                                hideMethod: "fadeOut",
+                                tapToDismiss: !1
+                            });
+                      }
+                    });
+                // Gọi hàm gửi API tại đây
+            } else {
+                validateInput(usernameInput, 'userNameError', /^.{8,}$/, 'Tên đăng nhập phải có ít nhất 8 ký tự');
+                validateInput(emailInput, 'emailError', /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Email không đúng định dạng');
+                validateInputPhoneNumber(phoneInput, 'phoneError', /^\d{10}$/, 'Số điện thoại phải là 10 số');
+
+                if (username === '') {
+                    validateInput(usernameInput, 'userNameError', '', 'Vui lòng nhập username');
+                }
+
+                if (email === '') {
+                    validateInput(emailInput, 'emailError', '', 'Vui lòng nhập email');
+                }
+            }
+        }
+
+        function updateFields(data) {
+            document.getElementById('id-user').value = data.id;
+            usernameInput.value = data.userName;
+            document.getElementById('inputName').value = data.fullName;
+            phoneInput.value = data.phoneNumber;
+            emailInput.value = data.email;
+        }
+
+        usernameInput.addEventListener('input', () => {
+            validateInput(usernameInput, 'userNameError', /^.{8,}$/, 'Tên đăng nhập phải có ít nhất 8 ký tự');
+        });
+
+        emailInput.addEventListener('input', () => {
+            validateInput(emailInput, 'emailError', /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Email không đúng định dạng');
+        });
+
+        phoneInput.addEventListener('input', () => {
+            validateInputPhoneNumber(phoneInput, 'phoneError', /^\d{10}$/, 'Số điện thoại phải là 10 số');
+        });
+
+        saveButton.addEventListener('click', validateAndSave);
+
+        const fileInput = document.getElementById('file-image');
+        const uploadButton = document.getElementById("upload-file");
+        const userId = document.getElementById('id-user').value.trim();
+
+        uploadButton.addEventListener('click', async () => {
+            const file = fileInput.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append('image', file);
+                formData.append('userId', userId);
+
+                try {
+                    const response = await axios.post('/api/profile/update-image',formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    });
+                    const { nameImage, linkImage } = response.data;
+                    toastr.success("Thông tin đã được cập nhật", "Thành công", {
+                        timeOut: 10e3,
+                        closeButton: !0,
+                        debug: !1,
+                        newestOnTop: !0,
+                        progressBar: !0,
+                        positionClass: "toast-top-right",
+                        preventDuplicates: !0,
+                        onclick: null,
+                        showDuration: "5000",
+                        hideDuration: "5000",
+                        extendedTimeOut: "5000",
+                        showEasing: "swing",
+                        hideEasing: "linear",
+                        showMethod: "fadeIn",
+                        hideMethod: "fadeOut",
+                        tapToDismiss: !1
+                    });
+                    updateImageInfo(nameImage, linkImage);
+
+                } catch (error) {
+                    toastr.error(error.response.data, "Thất baị", {
+                        timeOut: 10e3,
+                        closeButton: !0,
+                        debug: !1,
+                        newestOnTop: !0,
+                        progressBar: !0,
+                        positionClass: "toast-top-right",
+                        preventDuplicates: !0,
+                        onclick: null,
+                        showDuration: "5000",
+                        hideDuration: "5000",
+                        extendedTimeOut: "5000",
+                        showEasing: "swing",
+                        hideEasing: "linear",
+                        showMethod: "fadeIn",
+                        hideMethod: "fadeOut",
+                        tapToDismiss: !1
+                    });
+
+                }
+            }
+        });
+
+        function updateImageInfo(nameImage, linkImage) {
+            const imageElement = document.getElementById("image-profile")
+            const labelElement = document.getElementById("file-label")
+
+            if (linkImage) {
+                imageElement.src = linkImage;
+            }
+            labelElement.textContent = nameImage || 'Chọn file';
+        }
+
+        let currentPassword = document.getElementById("currentPassword");
+        let newPassword = document.getElementById("new-password");
+        let rePassword = document.getElementById("re-password");
+
+
+        function validateInputPassword(input, errorId, errorMessage) {
+            const value = input.value;
+            const errorElement = document.getElementById(errorId);
+            let length = value != null ? value.length : 0;
+            if (value === '') {
+                errorElement.textContent = errorMessage;
+            } else if (length <8) {
+                errorElement.textContent = errorMessage;
+            } else {
+                errorElement.textContent = '';
+            }
+        }
+
+        function validateInputNewPassword(inputPass,inputNewPass, errorId, errorMessage,errorMessage2) {
+            const pass = inputPass.value;
+            const newPass = inputNewPass.value;
+            const errorElement = document.getElementById(errorId);
+            let length = newPass != null ? newPass.length : 0;
+            if (newPass === '') {
+                errorElement.textContent = errorMessage;
+            } else if (length <8) {
+                errorElement.textContent = errorMessage;
+            } else if(newPass === pass){
+                errorElement.textContent = errorMessage2;
+            } else {
+                errorElement.textContent = '';
+            }
+        }
+
+        function validateInputRePassword(inputPass, inputRepass, errorId, errorMessage) {
+            const pass = inputPass.value;
+            const rePass = inputRepass.value;
+            const errorElement = document.getElementById(errorId);
+
+            if (rePass === '') {
+                errorElement.textContent = errorMessage;
+            } else if (rePass !== pass) {
+                errorElement.textContent = errorMessage;
+            } else {
+                errorElement.textContent = '';
+            }
+        }
+
+
+        currentPassword.addEventListener('input', () => {
+            validateInputPassword(currentPassword, 'error-current-password', ' Mật khẩu phải có ít nhất 8 ký tự');
+        });
+
+        newPassword.addEventListener('input', () => {
+            validateInputNewPassword(currentPassword,newPassword, 'error-new-password', 'Mật khẩu mới phải có ít nhất 8 ký tự', 'Mật khẩu mới không được trùng với mật khẩu cũ');
+        });
+
+        rePassword.addEventListener('input', () => {
+            validateInputRePassword(newPassword,rePassword, 'error-re-password', 'Vui lòng nhập lại đúng mật khẩu');
+        });
+
+
+        function createPasswordData() {
+            const currentPassword = document.getElementById("currentPassword").value.trim();
+            const newPassword =  document.getElementById("new-password").value.trim();
+            const id = document.getElementById('id-user').value.trim();
+
+            return {
+                id,
+                currentPassword,
+                newPassword
+            };
+        }
+
+        async function validateAndSavePassword() {
+
+            const rePassword = document.getElementById("re-password").value.trim();
+            const currentPassword = document.getElementById("currentPassword").value.trim();
+            const newPassword =  document.getElementById("new-password").value.trim();
+
+            const isValid =
+                currentPassword !== '' &&
+                currentPassword.length >= 8 &&
+                newPassword !== '' &&
+                newPassword.length >= 8 && newPassword !== currentPassword
+                && rePassword === newPassword;
+
+            if (isValid) {
+                // Gửi API
+                const passwordData = createPasswordData();
+                await axios.post('/api/profile/change-password', passwordData)
+                    .then(response => {
+                        toastr.success("Mật khẩu đã được cập nhật", "Thành công", {
+                            timeOut: 10e3,
+                            closeButton: !0,
+                            debug: !1,
+                            newestOnTop: !0,
+                            progressBar: !0,
+                            positionClass: "toast-top-right",
+                            preventDuplicates: !0,
+                            onclick: null,
+                            showDuration: "5000",
+                            hideDuration: "5000",
+                            extendedTimeOut: "5000",
+                            showEasing: "swing",
+                            hideEasing: "linear",
+                            showMethod: "fadeIn",
+                            hideMethod: "fadeOut",
+                            tapToDismiss: !1
+                        });
+                        document.getElementById("re-password").value = '';
+                        document.getElementById("currentPassword").value = '';
+                        document.getElementById("new-password").value = '';
+                    })
+                    .catch(error => {
+                        if (error.response) {
+                            // Xử lý lỗi từ phía máy chủ
+                            toastr.error(error.response.data, "Thất baị", {
+                                timeOut: 10e3,
+                                closeButton: !0,
+                                debug: !1,
+                                newestOnTop: !0,
+                                progressBar: !0,
+                                positionClass: "toast-top-right",
+                                preventDuplicates: !0,
+                                onclick: null,
+                                showDuration: "5000",
+                                hideDuration: "5000",
+                                extendedTimeOut: "5000",
+                                showEasing: "swing",
+                                hideEasing: "linear",
+                                showMethod: "fadeIn",
+                                hideMethod: "fadeOut",
+                                tapToDismiss: !1
+                            });
+                        } else {
+                            // Xử lý lỗi khác (ví dụ: không có kết nối mạng)
+                            toastr.error("Lỗi kết nối mạng", "Thất baị", {
+                                timeOut: 10e3,
+                                closeButton: !0,
+                                debug: !1,
+                                newestOnTop: !0,
+                                progressBar: !0,
+                                positionClass: "toast-top-right",
+                                preventDuplicates: !0,
+                                onclick: null,
+                                showDuration: "5000",
+                                hideDuration: "5000",
+                                extendedTimeOut: "5000",
+                                showEasing: "swing",
+                                hideEasing: "linear",
+                                showMethod: "fadeIn",
+                                hideMethod: "fadeOut",
+                                tapToDismiss: !1
+                            });
+                        }
+                    });
+                // Gọi hàm gửi API tại đây
+            } else {
+                validateInputPassword(currentPassword, 'error-current-password', ' Mật khẩu phải có ít nhất 8 ký tự');
+                validateInputNewPassword(currentPassword,newPassword, 'error-new-password', 'Mật khẩu mới phải có ít nhất 8 ký tự', 'Mật khẩu mới không được trùng với mật khẩu cũ');
+                validateInputRePassword(newPassword,rePassword, 'error-re-password', 'Vui lòng nhập lại đúng mật khẩu');
+
+            }
+        }
+        document.getElementById("button-password").addEventListener("click",validateAndSavePassword);
+
+    </script>
+
+
+
+    <script>
+        const passwordInput = document.getElementById('currentPassword');
+        const togglePassword = document.querySelector('.toggle-password');
+
+        togglePassword.addEventListener('click', function () {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                togglePassword.classList.remove('fa-eye');
+                togglePassword.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                togglePassword.classList.remove('fa-eye-slash');
+                togglePassword.classList.add('fa-eye');
+            }
+        });
+
+        const newPasswordInput = document.getElementById('new-password');
+        const toggleNewPasswordButton = document.querySelector('.toggle-new-password');
+        toggleNewPasswordButton.addEventListener('click', function () {
+            if (newPasswordInput.type === 'password') {
+                newPasswordInput.type = 'text';
+                toggleNewPasswordButton.classList.remove('fa-eye');
+                toggleNewPasswordButton.classList.add('fa-eye-slash');
+            } else {
+                newPasswordInput.type = 'password';
+                toggleNewPasswordButton.classList.remove('fa-eye-slash');
+                toggleNewPasswordButton.classList.add('fa-eye');
+            }
+        });
+
+        const rePasswordInput = document.getElementById('re-password');
+        const toggleRePasswordButton = document.querySelector('.toggle-re-password');
+        toggleRePasswordButton.addEventListener('click', function () {
+            if (rePasswordInput.type === 'password') {
+                rePasswordInput.type = 'text';
+                toggleRePasswordButton.classList.remove('fa-eye');
+                toggleRePasswordButton.classList.add('fa-eye-slash');
+            } else {
+                rePasswordInput.type = 'password';
+                toggleRePasswordButton.classList.remove('fa-eye-slash');
+                toggleRePasswordButton.classList.add('fa-eye');
+            }
+        });
+    </script>
+</body>
+
+</html>

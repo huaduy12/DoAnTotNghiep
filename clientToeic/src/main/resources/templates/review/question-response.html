@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+    <title>Ôn tập question response</title>
+    <th:block th:replace="/fragment/header :: header"></th:block>
+    <style>
+      .container .row p{
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      .wrapper {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    flex-wrap: wrap; 
+}
+
+.media-wrapper {
+    width: 100%; /* Chiếm 60% chiều rộng */
+    margin: 10px auto; /* Canh ra giữa */
+    text-align: center; /* Căn giữa nội dung trong media-wrapper */
+}
+
+.media-item {
+    max-width: 100%; /* Đảm bảo ảnh không vượt quá 100% chiều rộng của media-wrapper */
+}
+
+
+.answer-option {
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.answer-label {
+  width: 30px;
+  height: 30px;
+  background-color: #ccc;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.result-icon-incorrect {
+  font-size: 18px;
+ color: red;
+}
+.result-icon-correct {
+  font-size: 18px;
+  color: #04b12f;
+}
+.answer-option .incorrect {
+  background-color: red;
+  color: #fff;
+}
+
+.answer-option .correct {
+  background-color: #04b12f;
+  color: #fff;
+}
+
+.answer-option .span-incorrect {
+  color: red;
+}
+
+.answer-option .span-correct {
+  color: #04b12f;;
+}
+.answer-input {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+
+
+/* css 4 nút phục vụ cho đáp án */
+
+
+.button {
+    padding: 10px 20px;
+    background-color: #007bff; /* Màu nền của nút */
+    color: #fff; /* Màu chữ của nút */
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    width: 80%;
+}
+
+.button:hover {
+    background-color: #0056b3; /* Màu nền của nút khi hover */
+}
+
+.btn-group .btn {
+  margin: 0 5px;
+  width: 40px;
+  height: 40px;
+  line-height: 30px;
+  font-size: 16px;
+}
+
+/* end */
+
+/* kéo phần main có question thì aside vẫn hiện thì */
+#scroll-main {
+  position: relative;
+}
+
+aside {
+  position: sticky;
+  top: 76px;
+  height: 100vh; /* Chiều cao của phần aside bằng với chiều cao màn hình */
+  overflow-y: auto; 
+}
+
+@media (max-width: 991px) {
+  aside {
+    position: static; 
+    height: auto;
+  }
+}
+/* end */
+
+    </style>
+</head>
+
+<body>
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+
+   <!-- Navbar Start -->
+    <div th:replace="/fragment/header :: navbar "></div>
+ <!-- Navbar End -->
+
+
+    <!-- Header Start -->
+    <!-- <div class="container-fluid bg-primary mb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 text-center">
+                    <h1 class="display-3 text-white animated slideInDown">Tin tức</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a class="text-white" href="#">Trang chủ</a></li>
+                            <li class="breadcrumb-item text-white active" aria-current="page">Từ vựng tiếng anh</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- Header End -->
+
+
+    <!-- Categories Start -->
+    <div class="container-xxl py-5 category">
+        <div class="container" >
+            <!-- <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Tự học</h6>
+                <h1 style="margin-bottom: 100px;">Từ vựng tiếng anh</h1>
+            </div> -->
+            <div id="scroll-main" class="row gy-5">
+                <!-- Latest Posts -->
+                  <main   class="col-lg-8"> 
+                    <div class="container">
+                      <nav aria-label="breadcrumb" style="background-color: #eee;">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item" ><a style="color: #181d38;" href="#"><i class="fas fa-folder-open"></i> Trang chủ</a></li>
+                            <li class="breadcrumb-item"><a href="" style="color: #181d38;" >Level 0-450</a></li>
+                            <li class="breadcrumb-item active" style="color: #181d38;" aria-current="page"><a href="">Question - Response</a></li>
+                        </ol>
+                     </nav>
+                      <div class="row gy-4 mb-5" id="wrapper-question">
+                          <h5 class="uppercase mt-4">PRACTICE TEST 10</h5>
+                          <hr style="padding-right: 0px; padding-left: 0px;">
+                          <p id="question-sample" class="fw-semi-bold text-justify">Listen to the talk. Then read each question and choose the best answer:</p>
+                           
+  
+                      </div>
+                      <div class="button-container row my-4 d-flex justify-content-center" id="buttonContainer">
+                          <div class="col-sm-3">
+                              <button id="backButton" class="button" >Quay lại</button>
+                          </div>
+                          <div class="col-sm-3">
+                              <button id="nextButton" class="button">Tiếp theo</button>
+                          </div>
+                          <div class="col-sm-3">
+                              <button id="submitButton" class="button">Chấm điểm</button>
+                          </div>
+                          <div class="col-sm-3">
+                            <button id="reloadButton" class="button">Làm lại</button>
+                        </div>
+                      </div>
+                          <!-- end paragraph -->
+    <!-- Courses Start -->
+  
+          
+          
+  <!-- Courses End -->
+                    
+                    </div>
+                  </main>
+  
+                  <aside class="col-lg-4">
+                    <!-- Widget [Search Bar Widget]-->
+                    <div class="card mb-5">
+                      <div class="card-body">
+                        <h3 class="h6">Tìm kiếm bài từ vựng</h3>
+                        <form action="#">
+                          <div class="input-group border-bottom">
+                            <input class="form-control border-0 shadow-0 ps-0" type="search" placeholder="Bạn muốn tìm kiếm">
+                            <button class="btn btn-link btn-sm shadow-0 px-0" type="submit"><i class="fas fa-search"></i></button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                    <!-- Widget [Latest Posts Widget]        -->
+                    <div class="card mb-5">
+                      <div class="card-body">
+                        <h3 class="h6 mb-3">Liên kết nhanh</h3>
+                         <a class="text-reset mb-3" href="!#">
+                          <div class="d-flex align-items-center"><img class="img-fluid flex-shrink-0" src="https://www.anhngumshoa.com/uploads/images/resize/300x300/vong-quay-may-man.png" alt="..." width="55">
+                            <div class="ms-3">
+                              <p class="mb-2 fw-bold text-gray-700 lh-1">Thi Thử TOEIC Online</p>
+                              <ul class="list-inline list-separated text-gray-500 d-flex align-items-center">
+                                <li class="list-inline-item small"><i class="far fa-eye"></i> 500</li>
+                                <li class="list-inline-item small"><i class="far fa-comment"></i> 12</li>
+                              </ul>
+                            </div>
+                          </div></a>
+                          <a class="text-reset mb-3" href="!#">
+                          <div class="d-flex align-items-center"><img class="img-fluid flex-shrink-0" src="https://www.anhngumshoa.com/uploads/images/resize/300x300/toeic-la-gi-anh-ngu-ms-hoa.jpg" alt="..." width="55">
+                            <div class="ms-3">
+                              <p class="mb-2 fw-bold text-gray-700 lh-1">Phương pháp đào tạo</p>
+                              <ul class="list-inline list-separated text-gray-500 d-flex align-items-center">
+                                <li class="list-inline-item small"><i class="far fa-eye"></i> 500</li>
+                                <li class="list-inline-item small"><i class="far fa-comment"></i> 12</li>
+                              </ul>
+                            </div>
+                          </div></a>
+                          <a class="text-reset" href="!#">
+                          <div class="d-flex align-items-center"><img class="img-fluid flex-shrink-0" src="https://www.anhngumshoa.com/uploads/images/resize/300x300/Tin tuc/1200x628.jpg" alt="..." width="55">
+                            <div class="ms-3">
+                              <p class="mb-2 fw-bold text-gray-700 lh-1">Cấu trúc đề thi TOEIC</p>
+                              <ul class="list-inline list-separated text-gray-500 d-flex align-items-center">
+                                <li class="list-inline-item small"><i class="far fa-eye"></i> 500</li>
+                                <li class="list-inline-item small"><i class="far fa-comment"></i> 12</li>
+                              </ul>
+                            </div>
+                          </div></a>
+                      </div>
+                    </div>
+                    <!-- Widget [Categories Widget]-->
+                    <div class="card mb-5">
+                      <div class="card-body">
+                        <h3 class="h6 mb-3">Danh mục</h3>
+                        <div class="p-2 d-flex justify-content-between fw-bold text-gray-600 bg-light"><a class="text-reset" href="!#">Từ vựng chuyên ngành Marketing</a><span>12</span></div>
+                        <div class="p-2 d-flex justify-content-between fw-bold text-gray-600 1"><a class="text-reset" href="!#">Từ vựng chuyên ngành Công nghệ thông tin</a><span>25</span></div>
+                        <div class="p-2 d-flex justify-content-between fw-bold text-gray-600 bg-light"><a class="text-reset" href="!#">Từ vựng chuyên ngành Du lịch - khách sạn</a><span>8</span></div>
+                        <div class="p-2 d-flex justify-content-between fw-bold text-gray-600 1"><a class="text-reset" href="!#">Từ vựng chuyên ngành Kỹ thuật</a><span>17</span></div>
+                        <div class="p-2 d-flex justify-content-between fw-bold text-gray-600 bg-light"><a class="text-reset" href="!#">Từ vựng chuyên ngành Nội thất, xây dựng</a><span>25</span></div>
+                      </div>
+                    </div>
+                  </aside>
+                  <main class="col-lg-8"> 
+                    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                      <h3 class="mb-5">Tin tức khác</h3>
+                  </div>
+                  <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                      <div class="carousel-item active " >
+                        <div class="row products-slick" data-nav="#slick-nav-1">
+                          <!-- Item 1 -->
+                          <div class="col-4 mx-3">
+                            <div class="course-item bg-light">
+                              <img class="img-fluid" src="../img/course-1.jpg" alt="">
+                              <div class="text-center p-4 pb-0">
+                                <a class="mb-4 text-a-custom">Course 1</a>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- Item 2 -->
+                          <div class="col-4 mx-3">
+                            <div class="course-item bg-light">
+                              <img class="img-fluid" src="../img/course-2.jpg" alt="">
+                              <div class="text-center p-4 pb-0">
+                                <a class="mb-4 text-a-custom">[Trọn bộ] Từ vựng TOEIC Part 7 mới nhất. </a>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- Item 3 -->
+                          <div class="col-4 mx-3">
+                            <div class="course-item bg-light">
+                              <img class="img-fluid" src="../img/course-3.jpg" alt="">
+                              <div class="text-center p-4 pb-0">
+                                <a class="mb-4 text-a-custom">[Trọn bộ] Từ vựng TOEIC Part 7 mới nhất</a>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-4 mx-3">
+                            <div class="course-item bg-light">
+                              <img class="img-fluid" src="../img/course-3.jpg" alt="">
+                              <div class="text-center p-4 pb-0">
+                                <a class="mb-4 text-a-custom">[Trọn bộ] Từ vựng TOEIC Part 7 mới nhất</a>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-4 mx-3">
+                            <div class="course-item bg-light">
+                              <img class="img-fluid" src="../img/course-3.jpg" alt="">
+                              <div class="text-center p-4 pb-0">
+                                <a class="mb-4 text-a-custom">[Trọn bộ] Từ vựng TOEIC Part 7 mới nhất</a>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-4 mx-3">
+                            <div class="course-item bg-light">
+                              <img class="img-fluid" src="../img/course-3.jpg" alt="">
+                              <div class="text-center p-4 pb-0">
+                                <a class="mb-4 text-a-custom">Course 6</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="slick-controls">
+                          <!-- Nút prev -->
+                          <button type="button" class="arrow-prev"><i class="fas fa-angle-double-left"></i></button>
+                          <!-- Nút next -->
+                          <button type="button" class="arrow-next"><i class="fas fa-angle-double-right"></i></button>
+                        </div>
+                      </div>
+                      <!-- Thêm các carousel-item khác tương tự ở đây -->
+                    </div>
+          
+                    
+                  </div>
+                  <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h3 class="my-5">Bình luận</h3>
+                  </div>
+                      <div class="d-flex justify-content-center border border-secondary">
+                        <div class="fb-comments" data-href="https://developers.facebook.com/docs/plugins/comments#configurator" data-width="800" data-numposts="6"></div>
+                      </div>   
+                  </main>
+              </div>
+              <div class="row gy-5">
+                <!-- Latest Posts -->
+               
+                
+              </div>
+        </div>
+    </div>
+    <!-- Categories Start -->
+    <div class="modal fade" id="scoreModal" tabindex="-1" aria-labelledby="scoreModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Kết quả kiểm tra</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+               <div class="col-3 result-label py-2">
+                  Listening
+               </div> 
+               <div id="score-listening" class="col-3 result-score py-2">
+                0
+             </div>
+            </div>
+             <div class="row my-2">
+              <div class="col-3 result-label py-2">
+                 Reading
+              </div> 
+              <div id="score-reading" class="col-3 result-score py-2">
+               0
+            </div>
+           </div>
+
+            <div class="row my-2">
+              <div class="col-3 result-label py-2">
+                 Đúng sai
+              </div> 
+              <div id="result-number" class="col-3 result-score py-2">
+               0
+            </div>            
+            </div>
+
+            <div class="row my-2">
+              <div  class="col-3 result-label py-2">
+                 Tổng điểm
+              </div> 
+              <div id="total-score" class="col-3 result-score text-danger py-2">
+               0
+            </div>            
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Start -->
+    <div th:replace="/fragment/footer :: footer"></div>
+    <!-- Footer End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    <div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="" nonce="ixu3i24j"></script>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/lib/wow/wow.min.js}"></script>
+    <script th:src="@{/lib/easing/easing.min.js}"></script>
+    <script th:src="@{/lib/waypoints/waypoints.min.js}"></script>
+    <script th:src="@{/lib/owlcarousel/owl.carousel.min.js}"></script>
+    <script th:src="@{/js/slick.min.js}"></script>
+    <!-- Template Javascript -->
+    <script th:src="@{/js/review/question-response.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+
+</body>
+
+</html>

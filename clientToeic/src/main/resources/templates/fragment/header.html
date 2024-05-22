@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:fragment="header">
+  <meta charset="utf-8" />
+  <title>eTOEIC</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta content="" name="keywords" />
+  <meta content="" name="description" />
+
+  <!-- Favicon -->
+  <link th:href="@{/img/favicon.ico}" rel="icon" />
+
+  <!-- Google Web Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+          href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap"
+          rel="stylesheet"
+  />
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Icon Font Stylesheet -->
+  <link
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+          rel="stylesheet"
+  />
+  <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
+          rel="stylesheet"
+  />
+
+  <!-- Libraries Stylesheet -->
+  <link th:href="@{/lib/animate/animate.min.css}" rel="stylesheet" />
+  <link th:href="@{/lib/owlcarousel/assets/owl.carousel.min.css}" rel="stylesheet" />
+
+<!--  slick phục vụ cho carousel trượt-->
+  <link type="text/css" rel="stylesheet" th:href="@{/css/slick.css}"/>
+  <link type="text/css" rel="stylesheet" th:href="@{/css/slick-theme.css}"/>
+
+  <link th:href="@{/plugins/toastr/css/toastr.min.css}" rel="stylesheet" content="text/css">
+
+  <!-- Customized Bootstrap Stylesheet -->
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+
+  <!-- Template Stylesheet -->
+  <link th:href="@{/css/style.css}" rel="stylesheet" />
+</head>
+<body>
+
+<nav th:fragment="navbar"
+        class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0"
+>
+  <a
+          th:href="@{/trang-chu}"
+          class="navbar-brand d-flex align-items-center px-4 px-lg-5"
+  >
+    <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>eTOEIC</h2>
+  </a>
+  <button
+          type="button"
+          class="navbar-toggler me-4"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarCollapse"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <div class="navbar-nav ms-auto p-4 p-lg-0">
+      <a th:href="@{/client/home}" class="nav-item nav-link" th:classappend="${currentPage == 'home' ? 'active' : ''}">Trang chủ</a>
+      <a th:href="@{/client/about}" class="nav-item nav-link" th:classappend="${currentPage == 'about' ? 'active' : ''}">Giới thiệu</a>
+      <a th:href="@{/client/news}" class="nav-item nav-link" th:classappend="${currentPage == 'news' ? 'active' : ''}" >Tin tức</a>
+
+      <div class="nav-item dropdown">
+        <a href="#" id="dropdown-test" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
+        >Thi online</a>
+        <div class="dropdown-menu fade-down m-0">
+          <a href="team.html" class="dropdown-item">Mini Test</a>
+          <a href="testimonial.html" class="dropdown-item"
+          >Full Test</a>
+          <a href="404.html" class="dropdown-item">Skill Test</a>
+        </div>
+      </div>
+
+      <div class="nav-item dropdown">
+        <a th:href="@{/client/review}" id="dropdown-review" class="nav-link dropdown-toggle " data-bs-toggle="dropdown"
+           th:classappend="${currentPage == 'review' ? 'active' : ''}">Ôn tập</a>
+        <div class="dropdown-menu fade-down m-0">
+          <a href="/client/review/get?level=400" class="dropdown-item">Mục tiêu 400+ TOEIC</a>
+          <a href="/client/review/get?level=550" class="dropdown-item"
+          >Mục tiêu 550+ TOEIC</a>
+          <a href="/client/review/get?level=700" class="dropdown-item">Mục tiêu 700+ TOEIC</a>
+          <a href="/client/review/get?level=750" class="dropdown-item">Mục tiêu 850+ TOEIC</a>
+        </div>
+      </div>
+
+      <div class="nav-item dropdown">
+        <a href="#" id="dropdown-tuhoc" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
+           th:classappend="${currentPage == 'self-learning' ? 'active' : ''}">Tự học TOEIC</a>
+        <div class="dropdown-menu fade-down m-0">
+          <a th:href="@{/client/self-learning/vocabulary}" class="dropdown-item">Từ vựng Tiếng Anh</a>
+          <a th:href="@{/client/self-learning/grammar}" class="dropdown-item"
+          >Ngữ pháp Tiếng Anh</a>
+          <a th:href="@{/client/self-learning/listening}" class="dropdown-item">Tự học Listening</a>
+          <a th:href="@{/client/self-learning/reading}" class="dropdown-item">Tự học Reading</a>
+        </div>
+      </div>
+      <a th:href="@{/show-login-page}" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block" sec:authorize="isAnonymous()">Tham gia<i class="fa fa-arrow-right ms-3"></i></a>
+      <div class="nav-item dropdown" sec:authorize="isAuthenticated()">
+        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" >Xin chào, <span sec:authentication="principal.username"></span></a>
+        <div class="dropdown-menu fade-down m-0">
+          <a th:href="@{/client/profile}" class="dropdown-item" sec:authorize="hasAnyRole('ROLE_USER')"
+          >Thông tin cá nhân</a>
+          <a href="../profile/history-test.html" class="dropdown-item">Lịch sử làm test</a>
+          <form method="post" th:action="@{/logout}">
+            <button type="submit" class="button-logout dropdown-item">
+              <i class="icon-key" ></i> <span>Đăng xuất <i class="fa fa-arrow-right ms-3"></i></span></button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- <a href="" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block"
+      >Tham gia<i class="fa fa-arrow-right ms-3"></i
+    ></a> -->
+  </div>
+</nav>
+
+
+</body>

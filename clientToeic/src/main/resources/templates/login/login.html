@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+
+  <title>Đăng nhập</title>
+  <th:block th:replace="/fragment/header :: header"></th:block>
+  <style>
+    .custom-eye{
+      font-size: 20px;
+      padding: 15px;
+    }
+  </style>
+</head>
+
+  <body>
+    <!-- Spinner Start -->
+    <div
+      id="spinner"
+      class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center"
+    >
+      <div
+        class="spinner-border text-primary"
+        style="width: 3rem; height: 3rem"
+        role="status"
+      >
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <!-- Spinner End -->
+
+    <!-- Navbar Start -->
+    <div th:replace="/fragment/header :: navbar "></div>
+    <!-- Navbar End -->
+
+    <!--Login start -->
+    <section class="vh-100">
+        <div class="container-fluid h-custom">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-9 col-lg-6 col-xl-5">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" class="img-fluid"
+                alt="Sample image">
+            </div>
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+              <form action="#" th:action="@{/client/xac-thuc}" method="post">
+                <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+                  <p class="lead fw-normal mb-0 me-3">Đăng nhập với</p>
+      
+                  <a  th:href="@{/oauth2/authorization/google}" class="btn btn-primary btn-floating mx-1">
+                    <i class="fab fa-google"></i>
+                  </a>
+                </div>
+      
+                <div class="divider d-flex align-items-center my-4">
+                  <p class="text-center fw-bold mx-3 mb-0">Hoặc</p>
+                </div>
+
+                <p th:if="${param.logout}" class="text-danger">
+                  Đăng xuất thành công
+                </p>
+                <!-- Email input -->
+                <div class="form-outline mb-4 form-floating">
+                  <input type="email" class="form-control form-control"
+                    placeholder="Enter a valid email address" id="email" name="email"/>
+                  <label class="form-label" for="email">Email</label>
+                </div>
+      
+                <!-- Password input -->
+                <div class="form-outline mb-3 form-floating position-relative">
+                  <input type="password" class="form-control form-control"
+                    placeholder="Nhập mật khẩu" id="password" name="password"/>
+                  <label class="form-label" for="password">Mật khẩu</label>
+                  <i class="fa fa-eye position-absolute end-0 top-50 translate-middle-y custom-eye toggle-password" aria-hidden="true" style="cursor: pointer;"></i>
+                </div>
+                <p th:if="${param.error}" class="text-danger">
+                  Thông tin mật khẩu không chính xác
+                </p>
+
+                <div class="d-flex justify-content-between align-items-center">
+                  <!-- Checkbox -->
+                  <div class="form-check mb-0">
+                    <input class="form-check-input me-2" type="checkbox" id="remember-me" name="remember-me" />
+                    <label class="form-check-label" for="remember-me">
+                      Lưu đăng nhập
+                    </label>
+                  </div>
+                  <a th:href="@{/client/forgot-password}" class="text-body">Quên mật khẩu?</a>
+                </div>
+      
+                <div class="text-center text-lg-start mt-4 pt-2">
+                 <button type="submit" class="btn btn-primary btn-lg  w-100 py-3"
+                    style="padding-left: 2.5rem; padding-right: 2.5rem;">Đăng nhập</button>
+                  <p class="small fw-bold mt-2 pt-1 mb-0">Nếu bạn chưa có tài khoản? <a th:href="@{/client/register}"
+                      class="link-danger">Đăng ký</a></p>
+                </div>
+      
+              </form>
+            </div>
+          </div>
+        </div>
+        
+        </div>
+      </section>
+      <!-- Login end -->
+
+    <!-- Footer Start -->
+    <div th:replace="/fragment/footer :: footer"></div>
+    <!-- Footer End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"
+      ><i class="bi bi-arrow-up"></i
+    ></a>
+
+
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/lib/wow/wow.min.js}"></script>
+    <script th:src="@{/lib/easing/easing.min.js}"></script>
+    <script th:src="@{/lib/waypoints/waypoints.min.js}"></script>
+    <script th:src="@{/lib/owlcarousel/owl.carousel.min.js}"></script>
+
+    <!-- Template Javascript -->
+    <script th:src="@{/js/main.js}"></script>
+
+    <script>
+      const passwordInput = document.getElementById('password');
+      const togglePasswordButton = document.querySelector('.toggle-password');
+
+      togglePasswordButton.addEventListener('click', function () {
+        if (passwordInput.type === 'password') {
+          passwordInput.type = 'text';
+          togglePasswordButton.classList.remove('fa-eye');
+          togglePasswordButton.classList.add('fa-eye-slash');
+        } else {
+          passwordInput.type = 'password';
+          togglePasswordButton.classList.remove('fa-eye-slash');
+          togglePasswordButton.classList.add('fa-eye');
+        }
+      });
+    </script>
+
+
+    <script th:src="@{/plugins/toastr/js/toastr.min.js}"></script>
+    <script th:src="@{/plugins/toastr/js/toastr.init.js}"></script>
+
+    <script th:inline="javascript" th:if="${createSuccess != null}">
+      toastr.success("Tạo tài khoản thành công", "Thành công", {
+        timeOut: 20e3,
+        closeButton: !0,
+        debug: !1,
+        newestOnTop: !0,
+        progressBar: !0,
+        positionClass: "toast-top-right",
+        preventDuplicates: !0,
+        onclick: null,
+        showDuration: "5000",
+        hideDuration: "1000",
+        extendedTimeOut: "1000",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut",
+        tapToDismiss: !1
+      });
+    </script>
+
+    <script th:inline="javascript" th:if="${createFail != null}">
+      toastr.error("Tạo tài khoản thất bại", "Thất bại", {
+        timeOut: 5e3,
+        closeButton: !0,
+        debug: !1,
+        newestOnTop: !0,
+        progressBar: !0,
+        positionClass: "toast-top-right",
+        preventDuplicates: !0,
+        onclick: null,
+        showDuration: "1000",
+        hideDuration: "1000",
+        extendedTimeOut: "1000",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut",
+        tapToDismiss: !1
+      });
+    </script>
+
+  </body>
+</html>
