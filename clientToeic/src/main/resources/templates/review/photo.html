@@ -181,12 +181,12 @@ aside {
                       <nav aria-label="breadcrumb" style="background-color: #eee;">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item" ><a style="color: #181d38;" href="#"><i class="fas fa-folder-open"></i> Trang chủ</a></li>
-                            <li class="breadcrumb-item"><a href="" style="color: #181d38;" >Level 0-450</a></li>
-                            <li class="breadcrumb-item active" style="color: #181d38;" aria-current="page"><a href="">Question - Response</a></li>
+                            <li class="breadcrumb-item"><a href="" style="color: #181d38;" th:text="${'Level ' + level}"></a></li>
+                            <li class="breadcrumb-item active" style="color: #181d38;" aria-current="page"><a th:href="@{/client/review}" th:text="${skill.toUpperCase()}"></a></li>
                         </ol>
                      </nav>
                       <div class="row gy-4 mb-5" id="wrapper-question">
-                          <h5 class="uppercase mt-4">PRACTICE TEST 10</h5>
+                          <h5 class="uppercase mt-4" th:text="${name}"></h5>
                           <hr style="padding-right: 0px; padding-left: 0px;">
                           <p id="question-sample" class="fw-semi-bold text-justify">Listen to the talk. Then read each question and choose the best answer:</p>
                            

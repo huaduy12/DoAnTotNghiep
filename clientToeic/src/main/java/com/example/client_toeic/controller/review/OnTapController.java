@@ -110,37 +110,71 @@ public class OnTapController {
 
 
     @GetMapping("/test/photo")
-    public String reviewPhoto(){
+    public String reviewPhoto(@RequestParam("id") Integer id, Model model){
+        Exercise exercise = exerciseRepository.findById(id).get();
+        model.addAttribute("level",exercise.getLevel());
+        model.addAttribute("skill",exercise.getTypeSkill());
+        model.addAttribute("name",exercise.getName());
         return "review/photo";
     }
 
     @GetMapping("/test/question-response")
-    public String reviewQuestionResponse(){
+    public String reviewQuestionResponse(@RequestParam("id") Integer id, Model model){
+        Exercise exercise = exerciseRepository.findById(id).get();
+        model.addAttribute("level",exercise.getLevel());
+        model.addAttribute("skill",exercise.getTypeSkill());
+        model.addAttribute("name",exercise.getName());
         return "review/question-response";
     }
     @GetMapping("/test/short-conversation")
-    public String reviewShortConversation(){
+    public String reviewShortConversation(@RequestParam("id") Integer id, Model model){
+        Exercise exercise = exerciseRepository.findById(id).get();
+        model.addAttribute("level",exercise.getLevel());
+        model.addAttribute("skill",exercise.getTypeSkill());
+        model.addAttribute("name",exercise.getName());
         return "review/short-conversation";
     }
     @GetMapping("/test/short-talk")
-    public String reviewShortTalk(){
+    public String reviewShortTalk(@RequestParam("id") Integer id, Model model){
+        Exercise exercise = exerciseRepository.findById(id).get();
+        model.addAttribute("level",exercise.getLevel());
+        model.addAttribute("skill",exercise.getTypeSkill());
+        model.addAttribute("name",exercise.getName());
         return "review/short-talk";
     }
     @GetMapping("/test/incomplete-sentence")
-    public String reviewIncompleteSentence(){
+    public String reviewIncompleteSentence(@RequestParam("id") Integer id, Model model){
+        Exercise exercise = exerciseRepository.findById(id).get();
+        model.addAttribute("level",exercise.getLevel());
+        model.addAttribute("skill",exercise.getTypeSkill());
+        model.addAttribute("name",exercise.getName());
         return "review/incomplete-sentence";
     }
     @GetMapping("/test/text-completion")
-    public String reviewTextCompletion(){
-        return "review/text-completion";
+    public String reviewTextCompletion(@RequestParam("id") Integer id, Model model){
+
+        Exercise exercise = exerciseRepository.findById(id).get();
+        model.addAttribute("level",exercise.getLevel());
+        model.addAttribute("skill",exercise.getTypeSkill());
+        model.addAttribute("name",exercise.getName());
+        return "/review/text-completion";
     }
     @GetMapping("/test/single-passage")
-    public String reviewSinglePassage(){
+    public String reviewSinglePassage(@RequestParam("id") Integer id, Model model){
+
+        Exercise exercise = exerciseRepository.findById(id).get();
+        model.addAttribute("level",exercise.getLevel());
+        model.addAttribute("skill",exercise.getTypeSkill());
+        model.addAttribute("name",exercise.getName());
         return "review/single-passage";
     }
 
     @GetMapping("/test/double-passage")
-    public String reviewDoublePassage(){
+    public String reviewDoublePassage(@RequestParam("id") Integer id, Model model){
+        Exercise exercise = exerciseRepository.findById(id).get();
+        model.addAttribute("level",exercise.getLevel());
+        model.addAttribute("skill",exercise.getTypeSkill());
+        model.addAttribute("name",exercise.getName());
         return "review/double-passage";
     }
 

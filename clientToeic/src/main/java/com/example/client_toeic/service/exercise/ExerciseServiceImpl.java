@@ -1,8 +1,6 @@
 package com.example.client_toeic.service.exercise;
 
-import com.example.client_toeic.dto.QuestionPhoto;
-import com.example.client_toeic.dto.QuestionPhotoApi;
-import com.example.client_toeic.dto.SimpleNameDto;
+import com.example.client_toeic.dto.*;
 import com.example.client_toeic.entity.Exercise;
 import com.example.client_toeic.repository.ExerciseQuestionRepository;
 import com.example.client_toeic.repository.ExerciseRepository;
@@ -47,6 +45,25 @@ public class ExerciseServiceImpl implements ExerciseService{
         }
         questionPhotoApi.setQuestions(questionPhotos);
         return questionPhotoApi;
+    }
+
+    @Override
+    public DetailExerciseShortTalkDto detailQuestionShortTalk(Integer id) {
+        Exercise exercise = exerciseRepository.findById(id).get();
+        DetailExerciseShortTalkDto detailExerciseShortTalkDto = new DetailExerciseShortTalkDto();
+        detailExerciseShortTalkDto.setName(exercise.getName());
+        detailExerciseShortTalkDto.setType(exercise.getTypeSkill());
+        detailExerciseShortTalkDto.setLevel(exercise.getLevel());
+
+        List<QuestionShortTalkDto> questionShortTalkDto = new ArrayList<>();
+
+        List<Integer> questionIds = exerciseQuestionRepository.findAllByExerciseIdStr(exercise.getId());
+        for (Integer idQuestion:questionIds) {
+            QuestionShortTalkDto questionPhotoDto = questionService.detailQuestionShortTalk(idQuestion);
+            questionShortTalkDto.add(questionPhotoDto);
+        }
+        detailExerciseShortTalkDto.setData(questionShortTalkDto);
+        return detailExerciseShortTalkDto;
     }
 
 

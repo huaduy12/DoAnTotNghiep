@@ -11,5 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class DetailExerciseShortTalkDto {
     private String name;
-    private List<QuestionShortTalkDto> questionShortTalkDtos;
+    private String level;
+    private String type;
+    private List<QuestionShortTalkDto> data;
 }

@@ -12,10 +12,10 @@ import java.util.List;
 public class ChildrenQuestionDto {
 
     private String id;
-    private String name;
+    private String text;  // tên câu hỏi
     private String level;
     private String type;
     private String description;
-    private Integer answerCorrect;
+    private Integer correctAnswerIndex;
     private List<String> answers;
 }

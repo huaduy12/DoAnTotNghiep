@@ -10,6 +10,33 @@
         .dropdown-item{
             width: -webkit-fill-available;
         }
+        .file-input + .file-label {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .file-input {
+            width: 0;
+            height: 0;
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .file-label {
+            width: 200px;
+            display: inline-block;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .file-label:hover {
+            background-color: #e9e9e9;
+        }
     </style>
 
 </head>
@@ -87,6 +114,10 @@
                                     <div class="col-2">
                                         <button type="button" class="btn btn-info ml-4" data-toggle="modal" data-target="#modalAddEdit">
                                             Thêm câu hỏi </button>
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="button" class="btn btn-info add-button" data-toggle="modal" data-target="#modalImport">
+                                            Import câu hỏi </button>
                                     </div>
 
                                 </div>
@@ -230,6 +261,36 @@
     </div>
 </div>
 
+    <div class="modal fade" id="modalImport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalImport">FILE</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" th:action="@{/admin/import-question/save}" th:object="${file}" enctype="multipart/form-data">
+                    <div class="modal-body" id ="modalError">
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label fw-bold" for="file-image">Chọn file <span class="text-danger">*</span></label>
+                            <div class="col-lg-6 text-center">
+                                <input type="file" class="btn mb-1 btn-rounded btn-success file-input" id="file-image" th:field="*{image}" style="width: inherit;"><span class="btn-icon-left"  ></span>
+                                <label for="file-image" class="file-label">Chọn file</label>
+                                <p class="text-danger" th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></p>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-primary">Lưu file</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script th:src="@{/plugins/toastr/js/toastr.min.js}"></script>
     <script th:src="@{/plugins/toastr/js/toastr.init.js}"></script>
 
@@ -245,6 +306,67 @@
     <script th:src="@{/plugins/tables/js/jquery.dataTables.min.js}"></script>
     <script th:src="@{/plugins/tables/js/datatable/dataTables.bootstrap4.min.js}"></script>
     <script th:src="@{/plugins/tables/js/datatable-init/datatable-basic.min.js}"></script>
+
+    <script th:inline="javascript" th:if="${errorImport != null}">
+        toastr.error("Import thất bại", "Lỗi import", {
+            timeOut: 5e3,
+            closeButton: !0,
+            debug: !1,
+            newestOnTop: !0,
+            progressBar: !0,
+            positionClass: "toast-top-right",
+            preventDuplicates: !0,
+            onclick: null,
+            showDuration: "1000",
+            hideDuration: "1000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+            tapToDismiss: !1
+        });
+    </script>
+
+
+
+    <script th:inline="javascript" th:if="${successImport != null}">
+        toastr.success("Import thành công", "Thành công", {
+            timeOut: 5e3,
+            closeButton: !0,
+            debug: !1,
+            newestOnTop: !0,
+            progressBar: !0,
+            positionClass: "toast-top-right",
+            preventDuplicates: !0,
+            onclick: null,
+            showDuration: "1000",
+            hideDuration: "1000",
+            extendedTimeOut: "1000",
+            showEasing: "swing",
+            hideEasing: "linear",
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut",
+            tapToDismiss: !1
+        });
+    </script>
+
+
+
+    <script>
+        $(document).ready(function() {
+            $("#file-image").change(function() {
+                var input = this;
+                var fileName = input.files[0].name;
+                // var fileName = $(this).val();
+                if (fileName) {
+                    $(this).siblings("label").text(fileName);
+                } else {
+                    $(this).siblings("label").text("Chọn file");
+                }
+            });
+        });
+    </script>
 
 
     <script>

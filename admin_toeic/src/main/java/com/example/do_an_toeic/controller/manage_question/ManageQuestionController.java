@@ -1,6 +1,7 @@
 package com.example.do_an_toeic.controller.manage_question;
 
 import com.example.do_an_toeic.dto.ChoiceQuestionDto;
+import com.example.do_an_toeic.dto.FileDto;
 import com.example.do_an_toeic.dto.QuestionPhotoDto;
 import com.example.do_an_toeic.entity.ExamQuestion;
 import com.example.do_an_toeic.entity.ExerciseQuestion;
@@ -42,6 +43,7 @@ public class ManageQuestionController {
         ChoiceQuestionDto choiceQuestionDto = new ChoiceQuestionDto();
         model.addAttribute("choiceQuestionDto", choiceQuestionDto);
         model.addAttribute("questions",questionService.finAll());
+        model.addAttribute("file",new FileDto());
         return "cau-hoi/quan-li-cau-hoi";
     }
 

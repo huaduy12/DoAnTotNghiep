@@ -1,5 +1,6 @@
 package com.example.client_toeic.controller.api;
 
+import com.example.client_toeic.dto.DetailExerciseShortTalkDto;
 import com.example.client_toeic.dto.QuestionPhotoApi;
 import com.example.client_toeic.service.exercise.ExerciseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,4 +21,12 @@ public class ApiReviewCtrl {
     public ResponseEntity<QuestionPhotoApi> getReviewPhoto(@PathVariable("id") Integer id){
         return ResponseEntity.ok(exerciseService.getDetailPhoto(id));
     }
+
+    @GetMapping("/talk/{id}")
+    public ResponseEntity<DetailExerciseShortTalkDto> getReviewShortTalk(@PathVariable("id") Integer id){
+
+        return ResponseEntity.ok(exerciseService.detailQuestionShortTalk(id));
+    }
+
+
 }

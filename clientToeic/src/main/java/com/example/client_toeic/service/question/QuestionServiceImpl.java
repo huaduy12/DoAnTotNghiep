@@ -95,37 +95,28 @@ public class QuestionServiceImpl implements QuestionService{
         questionShortTalkDto.setName(question.getName());
         questionShortTalkDto.setDescription(question.getDescription());
         List<Resource> resources = resourceRepository.findAllByQuestionId(id);
-        FileBase64Dto image = new FileBase64Dto();
-        FileBase64Dto audio = new FileBase64Dto();
         for (Resource resource: resources) {
-            if(TypeResource.IMAGE.getValue().equals(resource.getTypeResource())){
-                if(CommonUtils.isEmptyOrNull(resource.getFileName())){
-                    image.setLink(resource.getImage() != null ? resource.getImage() : null);
-                }else{
-                    image.setNameBase64(resource.getFileName() != null ? resource.getFileName() : null);
-                }
-            }else{
-                if(CommonUtils.isEmptyOrNull(resource.getFileName())){
-                    audio.setLink(resource.getAudio() != null ? resource.getAudio() : null);
-                }else{
-                    audio.setNameBase64(resource.getFileName() != null ? resource.getFileName() : null);
+            if (TypeResource.IMAGE.getValue().equals(resource.getTypeResource())) {
+                if (CommonUtils.isEmptyOrNull(resource.getFileName())) {
+                    questionShortTalkDto.setImage(resource.getImage() != null ? resource.getImage() : null);
+                } else {
+                    questionShortTalkDto.setAudioSrc(resource.getAudio() != null ? resource.getAudio() : null);
                 }
             }
         }
-        questionShortTalkDto.setImage(image);
-        questionShortTalkDto.setAudio(audio);
-        List<ChildrenQuestionDto> childrenQuestionDtos = new ArrayList<>();
-        List<Question> children = questionRepository.findAllByParentQuestion(question.getId());
-        for (Question questionChild: children) {
-           ChildrenQuestionDto childrenQuestionDto = new ChildrenQuestionDto();
-           childrenQuestionDto.setName(questionChild.getName());
-           childrenQuestionDto.setAnswerCorrect(questionChild.getIndexCorrect());
-           List<String> answers = answerRepository.findAllByQuestionIdContent(questionChild.getId());
-           childrenQuestionDto.setAnswers(answers);
-           childrenQuestionDtos.add(childrenQuestionDto);
-        }
+            List<ChildrenQuestionDto> childrenQuestionDtos = new ArrayList<>();
+            List<Question> children = questionRepository.findAllByParentQuestion(question.getId());
+            for (Question questionChild : children) {
+                ChildrenQuestionDto childrenQuestionDto = new ChildrenQuestionDto();
+                childrenQuestionDto.setText(questionChild.getName());
+                childrenQuestionDto.setCorrectAnswerIndex(questionChild.getIndexCorrect());
+                List<String> answers = answerRepository.findAllByQuestionIdContent(questionChild.getId());
+                childrenQuestionDto.setAnswers(answers);
+                childrenQuestionDtos.add(childrenQuestionDto);
+            }
         questionShortTalkDto.setQuestions(childrenQuestionDtos);
         return questionShortTalkDto;
+
     }
 
     @Override
@@ -136,31 +127,27 @@ public class QuestionServiceImpl implements QuestionService{
         questionShortTalkDto.setName(question.getName());
         questionShortTalkDto.setDescription(question.getDescription());
         List<Resource> resources = resourceRepository.findAllByQuestionId(id);
-        FileBase64Dto image = new FileBase64Dto();
-        FileBase64Dto audio = new FileBase64Dto();
         for (Resource resource: resources) {
-            if(TypeResource.IMAGE.getValue().equals(resource.getTypeResource())){
-                    image.setLink(resource.getImage() != null ? resource.getImage() : null);
-                    image.setNameBase64(resource.getFileName() != null ? resource.getFileName() : null);
+            if (TypeResource.IMAGE.getValue().equals(resource.getTypeResource())) {
+                questionShortTalkDto.setImage(resource.getImage() != null ? resource.getImage() : null);
+
             }else{
-                    audio.setLink(resource.getAudio() != null ? resource.getAudio() : null);
-                    audio.setNameBase64(resource.getFileName() != null ? resource.getFileName() : null);
+                questionShortTalkDto.setAudioSrc(resource.getAudio() != null ? resource.getAudio() : null);
             }
         }
-        questionShortTalkDto.setImage(image);
-        questionShortTalkDto.setAudio(audio);
         List<ChildrenQuestionDto> childrenQuestionDtos = new ArrayList<>();
         List<Question> children = questionRepository.findAllByParentQuestion(question.getId());
         for (Question questionChild: children) {
             ChildrenQuestionDto childrenQuestionDto = new ChildrenQuestionDto();
-            childrenQuestionDto.setName(questionChild.getName());
-            childrenQuestionDto.setAnswerCorrect(questionChild.getIndexCorrect());
+            childrenQuestionDto.setText(questionChild.getName());
+            childrenQuestionDto.setCorrectAnswerIndex(questionChild.getIndexCorrect());
             List<String> answers = answerRepository.findAllByQuestionIdContent(questionChild.getId());
             childrenQuestionDto.setAnswers(answers);
             childrenQuestionDtos.add(childrenQuestionDto);
         }
         questionShortTalkDto.setQuestions(childrenQuestionDtos);
         return questionShortTalkDto;
+
     }
 
     @Override
