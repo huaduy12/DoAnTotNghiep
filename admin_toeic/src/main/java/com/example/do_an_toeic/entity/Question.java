@@ -36,4 +36,7 @@ public class Question extends EntityBase {
 
     @Column(name = "parent_question")
     private Integer parentQuestion;
+
+    @Column(name = "is_price")
+    private Boolean isPrice = false;
 }

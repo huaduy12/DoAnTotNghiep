@@ -1,8 +1,4 @@
 
-document.getElementById('reloadButton').addEventListener('click', () => {
-    window.location.reload();
-});
-
 var urlParams = new URLSearchParams(window.location.search);
 var id = urlParams.get('id');
 var conversation = undefined;
@@ -10,7 +6,7 @@ var conversation = undefined;
 // Định nghĩa hàm async để gọi API và xử lý dữ liệu
 async function fetchDataAndInitialize(id) {
     try {
-        const response = await axios.get(`/api/review/talk/${id}`);
+        const response = await axios.get(`/api/skill/talk/${id}`);
         console.log(response)
         return response.data;
     } catch (error) {
@@ -27,6 +23,7 @@ async function initialize() {
         setupQuestionsAndAnswers();
         createButtonAnswer();
         getQuestion();
+        getTime();
         submitButton();
     }
 }
@@ -36,9 +33,9 @@ initialize();
 console.log(conversation)
 let questionButtons = [];
 let currentQuestionIndex = 0;
-
+var totalQuestion =0;
 function createButtonAnswer() {
-    let totalQuestion =0;
+
     const backButton = document.getElementById('backButton');
     const nextButton = document.getElementById('nextButton');
 
@@ -290,6 +287,35 @@ function clickButtonBackAndNext() {
 //     });
 // }
 
+// lấy thời gian từ api
+var countdownInterval;
+function getTime(){
+    var countdownSpan = document.getElementById('countdown');
+    var totalSeconds = conversation.time * 60; // Chuyển đổi thời gian từ phút sang giây
+
+    countdownInterval = setInterval(function() {
+        var hours = Math.floor(totalSeconds / 3600);
+        var minutes = Math.floor((totalSeconds % 3600) / 60);
+        var seconds = totalSeconds % 60;
+
+        // Thêm số 0 vào trước nếu số nhỏ hơn 10
+        hours = hours < 10 ? '0' + hours : hours;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+
+        countdownSpan.textContent = hours + ':' + minutes + ':' + seconds;
+
+        totalSeconds--;
+
+        // Nếu thời gian đã hết, dừng đếm ngược
+        if (totalSeconds < 0) {
+            clearInterval(countdownInterval);
+            countdownSpan.textContent = '00:00:00';
+            getScore();
+        }
+    }, 1000); // Cập nhật mỗi giây (1000 mili giây)
+}
+
 function submitButton(){
     var submitButton = document.getElementById("submitButton");
     var descriptions = document.querySelectorAll(".answer-content");
@@ -345,11 +371,13 @@ function getScore() {
     });
     disableInputsAndLabels();
     removeActiveQuestionNumber();
+    clearInterval(countdownInterval);
     displayDescription();
     var submitButton = document.getElementById("submitButton");
     var submitButtonContainer= submitButton.parentNode;
     submitButtonContainer.parentNode.removeChild(submitButtonContainer);
-
+    var result = document.getElementById('result');
+    result.innerText= 'Kết quả: ' + numberCorrect + "/" + totalQuestion;
 
 }
 

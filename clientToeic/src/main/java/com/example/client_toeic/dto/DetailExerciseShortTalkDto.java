@@ -13,5 +13,6 @@ public class DetailExerciseShortTalkDto {
     private String name;
     private String level;
     private String type;
+    private Integer time;
     private List<QuestionShortTalkDto> data;
 }

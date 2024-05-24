@@ -87,39 +87,44 @@
                     <div class="row gy-4 mb-5">
                       <!-- post -->
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-gray py-2 top-0 end-0 mt-2 me-2 w-100">
+                            <button type="button" class="btn btn-gray py-2 top-0 end-0 mt-2 me-2 w-100" onclick="window.location.href='/client/skill/list?skill=photo'">
                                 Photo
                            </button>
                         </div>
                        <div class="col-md-6">
-                           <button type="button" class="btn btn-gray py-2 top-0 end-0 mt-2 me-2 w-100">
+                           <button type="button" class="btn btn-gray py-2 top-0 end-0 mt-2 me-2 w-100" onclick="window.location.href='/client/skill/list?skill=question_response'">
                             Question-Response
                            </button>
                        </div>
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-gray py-2 top-0 end-0 mt-2 me-2 w-100">
+                            <button type="button" class="btn btn-gray py-2 top-0 end-0 mt-2 me-2 w-100" onclick="window.location.href='/client/skill/list?skill=short_conversation'">
                                 Short conversation
                            </button>
                         </div>
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-gray py-2 top-0 end-0 mt-2 me-2 w-100">
+                            <button type="button" class="btn btn-gray py-2 top-0 end-0 mt-2 me-2 w-100" onclick="window.location.href='/client/skill/list?skill=short_talk'">
                                 Short talk
                            </button>
                         </div>
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-gray py-2 top-0 end-0 mt-2 me-2 w-100">
+                            <button type="button" class="btn btn-gray py-2 top-0 end-0 mt-2 me-2 w-100"  onclick="window.location.href='/client/skill/list?skill=incomplete_sentence'">
                                 Incomplete Sentence
                            </button>
                         </div>
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-gray py-2 top-0 end-0 mt-2 me-2 w-100">
+                            <button type="button" class="btn btn-gray py-2 top-0 end-0 mt-2 me-2 w-100" onclick="window.location.href='/client/skill/list?skill=text_completion'">
                                Text completion
                            </button>
                         </div>
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-gray py-2 top-0 end-0 mt-2 me-2 w-100">
-                                Reading comprehen
+                            <button type="button" class="btn btn-gray py-2 top-0 end-0 mt-2 me-2 w-100" onclick="window.location.href='/client/skill/list?skill=single_passage'">
+                                Single passage
                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-gray py-2 top-0 end-0 mt-2 me-2 w-100" onclick="window.location.href='/client/skill/list?skill=double_passage'">
+                                Double passage
+                            </button>
                         </div>
                     </div>
                  <!-- Courses Start -->
@@ -127,82 +132,70 @@
                     <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                         <h3 class="mb-5">Tài liệu luyện thi TOEIC</h3>
                     </div>
-                    <div id="carouselExampleControls" class="carousel slide " data-bs-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="carousel-item document-toeic active ">
-                                <div class="reviews-slick" data-nav="#slick-nav-1">
-                                    <!-- Slide 1 -->
-                                    <!-- <div class="row"> -->
-                                        <div class="col-6 mx-2">
-                                            <div class="course-item bg-light">
-                                               <h5 class="text-center mt-2">Level 0 - 400</h5>
-                                               <hr style="padding-right: 0px; padding-left: 0px;">
-                                                <ul>
-                                                    <li class="my-2"><a href="">300 cụm từ chắc chắn xuất hiện trong bài thi TOEIC</a></li>
-                                                    <li class="my-2"><a href="">20 chủ đề giao tiếp trong công việc</a></li>
-                                                    <li class="my-2"><a href="">300 cụm từ chắc chắn xuất hiện trong bài thi TOEIC</a></li>
-                                                    <li class="my-2"><a href="">20 chủ đề giao tiếp trong công việc</a></li>
-                                                    <li class="my-2"><a href="">300 cụm từ chắc chắn xuất hiện trong bài thi TOEIC</a></li>
-                                                    <li class="my-2"><a href="">20 chủ đề giao tiếp trong công việc</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <!-- Slide 2 -->
-                                        <div class="col-6 mx-2">
-                                            <div class="course-item bg-light">
+                      <div id="carouselExampleControls1" class="carousel slide " data-bs-ride="carousel">
+                          <div class="carousel-inner">
+                              <div class="carousel-item document-toeic active ">
+                                  <div class="document-slick" data-nav="#slick-nav-2">
+                                      <!-- Slide 1 -->
+                                      <!-- <div class="row"> -->
+                                      <div class="col-6 mx-2">
+                                          <div class="course-item bg-light">
+                                              <h5 class="text-center mt-2">Level 0 - 400</h5>
+                                              <hr style="padding-right: 0px; padding-left: 0px;">
+                                              <ul>
+                                                  <li class="my-2" th:each="document400 :${documentType400}">
+                                                      <a th:href="@{'/client/related-document/' + ${document400.getId()}}" th:text="${document400.getName()}"></a>
+                                                  </li>
+                                              </ul>
+                                          </div>
+                                      </div>
+                                      <!-- Slide 2 -->
+                                      <div class="col-6 mx-2">
+                                          <div class="course-item bg-light">
                                               <h5 class="text-center mt-2">Level 400 - 600</h5>
-                                               <hr style="padding-right: 0px; padding-left: 0px;">
-                                                <ul>
-                                                  <li class="my-2"><a href="">300 cụm từ chắc chắn xuất hiện trong bài thi TOEIC</a></li>
-                                                  <li class="my-2"><a href="">20 chủ đề giao tiếp trong công việc</a></li>
-                                                  <li class="my-2"><a href="">300 cụm từ chắc chắn xuất hiện trong bài thi TOEIC</a></li>
-                                                  <li class="my-2"><a href="">20 chủ đề giao tiếp trong công việc</a></li>
-                                                  <li class="my-2"><a href="">300 cụm từ chắc chắn xuất hiện trong bài thi TOEIC</a></li>
-                                                  <li class="my-2"><a href="">20 chủ đề giao tiếp trong công việc</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    <!-- Slide 3 -->
-                                        <div class="col-6 mx-2">
-                                            <div class="course-item bg-light">
+                                              <hr style="padding-right: 0px; padding-left: 0px;">
+                                              <ul>
+                                                  <li class="my-2" th:each="document550 :${documentType550}">
+                                                      <a th:href="@{'/client/related-document/' + ${document550.getId()}}" th:text="${document550.getName()}"></a>
+                                                  </li>
+                                              </ul>
+                                          </div>
+                                      </div>
+                                      <!-- Slide 3 -->
+                                      <div class="col-6 mx-2">
+                                          <div class="course-item bg-light">
                                               <h5 class="text-center mt-2">Level 600 - 800</h5>
-                                               <hr style="padding-right: 0px; padding-left: 0px;">
-                                                <ul>
-                                                    <li class="my-2"><a href="">300 cụm từ chắc chắn xuất hiện trong bài thi TOEIC</a></li>
-                                                    <li class="my-2"><a href="">20 chủ đề giao tiếp trong công việc</a></li>
-                                                    <li class="my-2"><a href="">300 cụm từ chắc chắn xuất hiện trong bài thi TOEIC</a></li>
-                                                    <li class="my-2"><a href="">20 chủ đề giao tiếp trong công việc</a></li>
-                                                    <li class="my-2"><a href="">300 cụm từ chắc chắn xuất hiện trong bài thi TOEIC</a></li>
-                                                    <li class="my-2"><a href="">20 chủ đề giao tiếp trong công việc</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <!-- Slide 4 -->
-                                        <div class="col-6 mx-2">
-                                            <div class="course-item bg-light">
-                                              <h5 class="text-center mt-2">Level 800+</h5>
-                                               <hr style="padding-right: 0px; padding-left: 0px;">
-                                                <ul>
-                                                  <li class="my-2"><a href="">300 cụm từ chắc chắn xuất hiện trong bài thi TOEIC</a></li>
-                                                  <li class="my-2"><a href="">20 chủ đề giao tiếp trong công việc</a></li>
-                                                  <li class="my-2"><a href="">300 cụm từ chắc chắn xuất hiện trong bài thi TOEIC</a></li>
-                                                  <li class="my-2"><a href="">20 chủ đề giao tiếp trong công việc</a></li>
-                                                  <li class="my-2"><a href="">300 cụm từ chắc chắn xuất hiện trong bài thi TOEIC</a></li>
-                                                  <li class="my-2"><a href="">20 chủ đề giao tiếp trong công việc</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="slick-controls">
+                                              <hr style="padding-right: 0px; padding-left: 0px;">
+                                              <ul>
+                                                  <li class="my-2" th:each="document700 :${documentType700}">
+                                                      <a th:href="@{'/client/related-document/' + ${document700.getId()}}" th:text="${document700.getName()}"></a>
+                                                  </li>
+                                              </ul>
+                                          </div>
+                                      </div>
+                                      <!-- Slide 4 -->
+                                      <div class="col-6 mx-2">
+                                          <div class="course-item bg-light">
+                                              <h5 class="text-center mt-2">Level 850+</h5>
+                                              <hr style="padding-right: 0px; padding-left: 0px;">
+                                              <ul>
+                                                  <li class="my-2" th:each="document850 :${documentType850}">
+                                                      <a th:href="@{'/client/related-document/' + ${document850.getId()}}" th:text="${document850.getName()}"></a>
+                                                  </li>
+                                              </ul>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="slick-controls">
                                       <!-- Nút prev -->
-                                      <button type="button" class="arrow-prev"><i class="fas fa-angle-double-left"></i></button>
+                                      <button type="button" class="arrow-prev" id="arrow-prev2"><i class="fas fa-angle-double-left"></i></button>
                                       <!-- Nút next -->
-                                      <button type="button" class="arrow-next"><i class="fas fa-angle-double-right"></i></button>
-                                    </div>
-                                <!-- </div> -->
-                            </div>
-                        </div>
-                    </div>
+                                      <button type="button" class="arrow-next" id="arrow-next2"><i class="fas fa-angle-double-right"></i></button>
+                                  </div>
+                                  <!-- </div> -->
+                              </div>
+                          </div>
+                      </div>
                 </div>
            </main>
 

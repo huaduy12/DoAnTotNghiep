@@ -10,5 +10,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuestionPhotoApi {
+    private Integer time;
     private List<QuestionPhoto> questions;
 }

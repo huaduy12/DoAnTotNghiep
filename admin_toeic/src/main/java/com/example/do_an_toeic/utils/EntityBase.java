@@ -43,7 +43,6 @@ public abstract class EntityBase implements Serializable {
         this.createdDate = now;
         this.modifiedDate = now;
         this.createdBy = username;
-        System.out.println("User:" + username);
     }
 
     @PreUpdate

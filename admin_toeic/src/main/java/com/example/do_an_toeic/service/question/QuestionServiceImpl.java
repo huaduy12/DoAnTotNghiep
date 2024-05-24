@@ -1,6 +1,7 @@
 package com.example.do_an_toeic.service.question;
 
 import com.example.do_an_toeic.dto.*;
+import com.example.do_an_toeic.dto.exam.ExamSkillQuestionDto;
 import com.example.do_an_toeic.entity.*;
 import com.example.do_an_toeic.enums.TypeExercise;
 import com.example.do_an_toeic.enums.TypeQuestion;
@@ -490,6 +491,25 @@ public class QuestionServiceImpl implements QuestionService{
         String skillToeic = questionExerciseDto.getSkill();
         List<Question> questions = questionRepository.findAllByLevelAndSkill(levelToeic,skillToeic,typeQuestion);
 
+        return questions;
+    }
+
+    @Override
+    public List<Question> responseQuestionExam(ExamSkillQuestionDto examSkillQuestionDto, Integer typeQuestion) {
+        String levelToeic = examSkillQuestionDto.getLevel();
+        String skillToeic = examSkillQuestionDto.getSkill();
+        List<Question> questions = questionRepository.findAllByLevelAndSkillExam(levelToeic,skillToeic,typeQuestion);
+
+        return questions;
+    }
+
+    /// trả ra câu hỏi theo ky nang khác nhau nhưng ko trung câu cũ khi update
+    @Override
+    public List<Question> responseQuestionExamUpdate(ExamSkillQuestionDto examSkillQuestionDto, Integer typeQuestion) {
+        String levelToeic = examSkillQuestionDto.getLevel();
+        String skillToeic = examSkillQuestionDto.getSkill();
+        List<Integer> questionIds = examQuestionRepository.findAllByExamIdStr(examSkillQuestionDto.getId());
+        List<Question> questions = questionRepository.findAllByLevelAndSkillExamUpdate(levelToeic,skillToeic,questionIds,typeQuestion);
         return questions;
     }
 

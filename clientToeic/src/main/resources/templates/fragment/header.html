@@ -72,13 +72,13 @@
       <a th:href="@{/client/news}" class="nav-item nav-link" th:classappend="${currentPage == 'news' ? 'active' : ''}" >Tin tức</a>
 
       <div class="nav-item dropdown">
-        <a href="#" id="dropdown-test" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
-        >Thi online</a>
+        <a th:href="@{/client/test}" id="dropdown-test" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
+           th:classappend="${currentPage == 'test' ? 'active' : ''}">Thi online</a>
         <div class="dropdown-menu fade-down m-0">
-          <a href="team.html" class="dropdown-item">Mini Test</a>
-          <a href="testimonial.html" class="dropdown-item"
-          >Full Test</a>
-          <a href="404.html" class="dropdown-item">Skill Test</a>
+          <a th:href="@{/client/test/mini}" class="dropdown-item">Mini Test</a>
+<!--          <a href="testimonial.html" class="dropdown-item"-->
+<!--          >Full Test</a>-->
+          <a th:href="@{/client/skill}" class="dropdown-item">Skill Test</a>
         </div>
       </div>
 
@@ -111,7 +111,7 @@
         <div class="dropdown-menu fade-down m-0">
           <a th:href="@{/client/profile}" class="dropdown-item" sec:authorize="hasAnyRole('ROLE_USER')"
           >Thông tin cá nhân</a>
-          <a href="../profile/history-test.html" class="dropdown-item">Lịch sử làm test</a>
+<!--          <a href="../profile/history-test.html" class="dropdown-item">Lịch sử làm test</a>-->
           <form method="post" th:action="@{/logout}">
             <button type="submit" class="button-logout dropdown-item">
               <i class="icon-key" ></i> <span>Đăng xuất <i class="fa fa-arrow-right ms-3"></i></span></button>

@@ -2,6 +2,7 @@ package com.example.do_an_toeic.service.question;
 
 
 import com.example.do_an_toeic.dto.*;
+import com.example.do_an_toeic.dto.exam.ExamSkillQuestionDto;
 import com.example.do_an_toeic.entity.Question;
 
 import java.io.IOException;
@@ -33,5 +34,7 @@ public interface QuestionService {
     QuestionPhotoDto detailQuestionPhoto(Integer id);
 
     List<Question> responseQuestionExercise(QuestionExerciseDto questionExerciseDto, Integer typeQuestion);
+    List<Question> responseQuestionExam(ExamSkillQuestionDto examSkillQuestionDto, Integer typeQuestion);
+    List<Question> responseQuestionExamUpdate(ExamSkillQuestionDto examSkillQuestionDto, Integer typeQuestion);
 
 }

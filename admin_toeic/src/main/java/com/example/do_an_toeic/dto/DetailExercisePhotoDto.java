@@ -12,5 +12,6 @@ import java.util.List;
 public class DetailExercisePhotoDto {
     private Integer id;
     private String name;
+    private Integer time;
     private List<QuestionPhotoDto> questionPhotoDtos;
 }

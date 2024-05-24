@@ -30,7 +30,7 @@ public class ExerciseServiceImpl implements ExerciseService{
 
     @Override
     public Page<Exercise> responseListExercise(String typeSkill, String level, Integer page) {
-        Pageable pageable =  PageRequest.of(page-1,1);
+        Pageable pageable =  PageRequest.of(page-1,9);
         return exerciseRepository.findAllByTypeSkillAndLevel(typeSkill,level,pageable);
     }
 

@@ -1,6 +1,7 @@
 package com.example.do_an_toeic.controller.api_question;
 
 import com.example.do_an_toeic.dto.*;
+import com.example.do_an_toeic.dto.exam.ExamSkillQuestionDto;
 import com.example.do_an_toeic.entity.Question;
 import com.example.do_an_toeic.enums.TypeExercise;
 import com.example.do_an_toeic.enums.TypeQuestion;
@@ -327,8 +328,15 @@ public class APIManagerQuestion {
         return ResponseEntity.ok(questionService.responseQuestionExercise(questionExerciseDto, TypeQuestion.TYPE_EXERCISE.getValue()));
     }
 
-    /**
-     * trả ra những thông tin đến bài ôn tập như level, tên, skill, câu hỏi đang dùng, câu hỏi chưa được dùng
-     */
+    @PostMapping("/question-exam")
+    public ResponseEntity<List<Question>> responseQuestionExam(@RequestBody ExamSkillQuestionDto examSkillQuestionDto){
+        return ResponseEntity.ok(questionService.responseQuestionExam(examSkillQuestionDto, TypeQuestion.TYPE_EXAM.getValue()));
+    }
+
+    @PostMapping("/question-exam-update")
+    public ResponseEntity<List<Question>> responseQuestionExamUpdate(@RequestBody ExamSkillQuestionDto examSkillQuestionDto){
+        return ResponseEntity.ok(questionService.responseQuestionExamUpdate(examSkillQuestionDto, TypeQuestion.TYPE_EXAM.getValue()));
+    }
+
 
 }

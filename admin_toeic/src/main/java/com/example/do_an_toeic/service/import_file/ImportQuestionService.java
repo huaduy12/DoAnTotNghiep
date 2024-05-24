@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface ImportQuestionService {
     Integer importFileQuestion(MultipartFile multipartFile) throws IOException;
+    Integer importFileQuestionForExam(MultipartFile multipartFile,Integer examId) throws IOException;
 }

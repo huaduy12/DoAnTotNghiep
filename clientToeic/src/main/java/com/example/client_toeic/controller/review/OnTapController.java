@@ -5,6 +5,7 @@ import com.example.client_toeic.enums.LevelToeic;
 import com.example.client_toeic.enums.TypeSkill;
 import com.example.client_toeic.repository.ExerciseRepository;
 import com.example.client_toeic.service.exercise.ExerciseService;
+import com.example.client_toeic.service.related_document.RelatedDocumentService;
 import com.example.client_toeic.utils.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,9 +31,16 @@ public class OnTapController {
     @Autowired
     private ExerciseRepository exerciseRepository;
 
+    @Autowired
+    private RelatedDocumentService relatedDocumentService;
+
     @GetMapping()
     public String trangOnTap(Model model){
         model.addAttribute("currentPage","review");
+        model.addAttribute("documentType400",relatedDocumentService.findAllByType(LevelToeic.level400.getValue()));
+        model.addAttribute("documentType550",relatedDocumentService.findAllByType(LevelToeic.level550.getValue()));
+        model.addAttribute("documentType700",relatedDocumentService.findAllByType(LevelToeic.level700.getValue()));
+        model.addAttribute("documentType850",relatedDocumentService.findAllByType(LevelToeic.level850.getValue()));
         return "review/review";
     }
 
@@ -46,12 +54,16 @@ public class OnTapController {
         if(!levelToeic.contains(level)){
             return "redirect:/client/review";
         }
+        model.addAttribute("documentType400",relatedDocumentService.findAllByType(LevelToeic.level400.getValue()));
+        model.addAttribute("documentType550",relatedDocumentService.findAllByType(LevelToeic.level550.getValue()));
+        model.addAttribute("documentType700",relatedDocumentService.findAllByType(LevelToeic.level700.getValue()));
+        model.addAttribute("documentType850",relatedDocumentService.findAllByType(LevelToeic.level850.getValue()));
         model.addAttribute("level",level);
         return "review/review-level";
     }
 
     @GetMapping("list")
-    public String getListSkill(@RequestParam("level") String level, @RequestParam("skill") String skill,
+    public String getListSkill(@RequestParam(value = "level",defaultValue = "400") String level, @RequestParam(value = "skill",defaultValue = "photo") String skill,
                                @RequestParam(value = "page",required = false,defaultValue = "1") Integer page, Model model){
         model.addAttribute("currentPage","review");
         List<String> levelToeic = listLevelToeic();
@@ -67,6 +79,10 @@ public class OnTapController {
         model.addAttribute("page",page);
         model.addAttribute("skill", !CommonUtils.isEmptyOrNull(skill) ? skill : "");
         model.addAttribute("level", !CommonUtils.isEmptyOrNull(level) ? level : "");
+        model.addAttribute("documentType400",relatedDocumentService.findAllByType(LevelToeic.level400.getValue()));
+        model.addAttribute("documentType550",relatedDocumentService.findAllByType(LevelToeic.level550.getValue()));
+        model.addAttribute("documentType700",relatedDocumentService.findAllByType(LevelToeic.level700.getValue()));
+        model.addAttribute("documentType850",relatedDocumentService.findAllByType(LevelToeic.level850.getValue()));
         return "review/list-review-level";
     }
 
