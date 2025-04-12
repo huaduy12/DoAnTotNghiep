@@ -101,13 +101,10 @@
                         <div class="dropdown-content-body">
                             <ul>
                                 <li >
-                                    <a th:href="@{/user/profile}"><i class="icon-user"></i> <span>Thông tin</span></a>
+                                    <a th:href="@{/admin/user/profile}"><i class="icon-user"></i> <span>Thông tin</span></a>
                                 </li>
                                 <li>
-                                    <a th:href="@{/user/profileStudent}"><i class="icon-user"></i> <span>Thông tin</span></a>
-                                </li>
-                                <li>
-                                    <a th:href="@{/user/change-password}"><i class="icon-envelope-open"></i> <span>Đổi mật khẩu</span> </a>
+                                    <a th:href="@{/admin/user/redirect-password}"><i class="icon-envelope-open"></i> <span>Đổi mật khẩu</span> </a>
                                 </li>
                                 <hr class="my-2">
                                 <li>
@@ -162,16 +159,17 @@
             </li>
             <li>
                 <a th:href="@{/admin/manage-exercise}" aria-expanded="false">
-                    <i class="fa fa-snowflake-o" aria-hidden="true"></i><span class="nav-text">Quản lý ôn tập</span>
+                    <i class="fa fa-snowflake-o" aria-hidden="true"></i><span class="nav-text">Quản lý bài ôn tập</span>
                 </a>
             </li>
             <li>
                 <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                    <i class="fa fa-graduation-cap menu-icon" aria-hidden="true"></i>Quản lý thi</span>
+                    <i class="fa fa-graduation-cap menu-icon" aria-hidden="true"></i>Quản lý đề thi</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a th:href="@{/admin/manage-skill}">Quản lý thi kỹ năng</a></li>
-                    <li><a th:href="@{/admin/manage-exam/mini}">Quản lý bài thi nhỏ</a></li>
+                    <li><a th:href="@{/admin/manage-skill}">Đề thi theo kỹ năng</a></li>
+                    <li><a th:href="@{/admin/manage-exam/mini}">Đề thi mini-test</a></li>
+                    <li><a th:href="@{/admin/manage-exam/mini}">Đề thi full-test</a></li>
 <!--                    <li><a href="./email-inbox.html">Quản lý thi đầy đủ</a></li>-->
                 </ul>
             </li>
