@@ -7,6 +7,11 @@
         weekStart: 0,
         time: false
     });
+    $("#birthDay").bootstrapMaterialDatePicker({
+        weekStart: 0,
+        time: false,
+        format: "DD/MM/YYYY",
+    });
     $('#timepicker').bootstrapMaterialDatePicker({
         format: 'HH:mm',
         time: true,

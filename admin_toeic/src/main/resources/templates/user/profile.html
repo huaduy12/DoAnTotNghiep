@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>
+        Thông tin chi tiết
+    </title>
+    <th:block th:replace="fragment/header :: html_head"></th:block>
+
+    <!-- Custom Stylesheet -->
+    <link th:href= "@{/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css}"
+            rel="stylesheet"
+    />
+    <!-- Page plugins css -->
+    <link
+            th:href="@{/plugins/clockpicker/dist/jquery-clockpicker.min.css}"
+            rel="stylesheet"
+    />
+    <!-- Color picker plugins css -->
+    <link
+            th:href="@{/plugins/jquery-asColorPicker-master/css/asColorPicker.css}"
+            rel="stylesheet"
+    />
+    <!-- Date picker plugins css -->
+    <link
+            th:href="@{/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css}"
+            rel="stylesheet"
+    />
+</head>
+
+<body>
+<!--*******************
+    Preloader start
+********************-->
+<div id="preloader">
+    <div class="loader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle
+                    class="path"
+                    cx="50"
+                    cy="50"
+                    r="20"
+                    fill="none"
+                    stroke-width="3"
+                    stroke-miterlimit="10"
+            />
+        </svg>
+    </div>
+</div>
+<!--*******************
+    Preloader end
+********************-->
+
+<!--**********************************
+    Main wrapper start
+***********************************-->
+<div id="main-wrapper">
+    <!--**********************************
+          Nav header start
+      ***********************************-->
+    <div th:replace="fragment/header :: nav_header">
+    </div>
+    <!--**********************************
+          Nav header end
+      ***********************************-->
+
+    <!--**********************************
+          Header start
+      ***********************************-->
+    <div th:replace="fragment/header :: header">
+    </div>
+    <!--**********************************
+          Header end ti-comment-alt
+      ***********************************-->
+
+    <!--**********************************
+          Sidebar start
+      ***********************************-->
+    <div th:replace="fragment/header :: nk_sidebar"></div>
+    <!--**********************************
+          Sidebar end
+      ***********************************-->
+
+    <!--**********************************
+          Content body start
+      ***********************************-->
+    <div class="content-body">
+        <div class="row page-titles mx-0">
+            <div class="col p-md-0">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="javascript:void(0)">Người dùng</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        <a href="javascript:void(0)">Thông tin chi tiết</a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <!-- row -->
+
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-validation">
+                                <form class="form-valide" th:action="@{/admin/user/profile}" th:object="${profileDto}" method="post">
+                                    <input type="hidden" id="id" th:field="*{id}">
+                                    <div class="form-group row">
+                                        <label class="col-lg-4 col-form-label" for="fullName">Họ tên<span class="text-danger">*</span>
+                                        </label>
+                                        <div class="col-lg-6">
+                                            <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    id="fullName"
+                                                    th:field="*{fullName}"
+                                                    placeholder=""
+                                            />
+                                        </div>
+                                            <p class="text-danger" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></p>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-4 col-form-label" for="email">Email <span class="text-danger">*</span></label>
+                                        <div class="col-lg-6">
+                                            <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    id="email"
+                                                    th:field="*{email}"
+                                                    placeholder="Vui lòng nhập email hợp lệ"
+                                            />
+
+                                        </div>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                                        <p class="text-danger" th:if="${emailExist != null}" th:text="${emailExist}"></p>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-lg-4 col-form-label" for="phoneNumber">Số điện thoại<span class="text-danger">*</span>
+                                        </label>
+                                        <div class="col-lg-6">
+                                            <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    id="phoneNumber"
+                                                    th:field="*{phoneNumber}"
+                                                    placeholder=""
+                                            />
+                                        </div>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></p>
+                                        <p class="text-danger" th:if="${phoneNumberExist != null}" th:text="${phoneNumberExist}"></p>
+
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-4 col-form-label" for="birthDay">Ngày sinh</label
+                                        >
+                                        <div class="col-lg-6">
+                                            <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    placeholder="dd/MM/yyyy"
+                                                    id="birthDay"
+                                                    name="birthDay"
+                                                    th:field="*{birthDay}"
+                                            />
+                                        </div>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('birthDay')}" th:errors="*{birthDay}"></p>
+
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-lg-4 col-form-label" for="address">Địa chỉ
+                                        </label>
+                                        <div class="col-lg-6">
+                                            <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    id="address"
+                                                    th:field="*{address}"
+                                            />
+                                        </div>
+                                        <p class="text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></p>
+
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-lg-8 ml-auto">
+                                            <button type="submit" class="btn btn-primary">
+                                                Cập nhập
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- #/ container -->
+    </div>
+    <!--**********************************
+          Content body end
+      ***********************************-->
+
+    <!--**********************************
+          Footer start
+      ***********************************-->
+    <div th:replace="fragment/footer :: footer">
+    </div>
+    <!--**********************************
+          Footer end
+      ***********************************-->
+</div>
+<!--**********************************
+    Main wrapper end
+***********************************-->
+
+<!--**********************************
+    Scripts
+***********************************-->
+<script th:src="@{/plugins/common/common.min.js}"></script>
+<script th:src="@{/js/custom.min.js}"></script>
+<script th:src="@{/js/settings.js}"></script>
+<script th:src="@{/js/gleek.js}"></script>
+<script th:src="@{/js/styleSwitcher.js}"></script>
+
+<script th:src="@{/plugins/validation/jquery.validate.min.js}"></script>
+<script th:src="@{/plugins/validation/jquery.validate-init.js}"></script>
+
+<script th:src="@{/plugins/moment/moment.js}"></script>
+<script th:src="@{/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js}"></script>
+<!-- Clock Plugin JavaScript -->
+<script th:src="@{/plugins/clockpicker/dist/jquery-clockpicker.min.js}"></script>
+<!-- Color Picker Plugin JavaScript -->
+<script th:src="@{/plugins/jquery-asColorPicker-master/libs/jquery-asColor.js}"></script>
+<script th:src="@{/plugins/jquery-asColorPicker-master/libs/jquery-asGradient.js}"></script>
+<script th:src="@{/plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js}"></script>
+<!-- Date Picker Plugin JavaScript -->
+<script th:src="@{/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js}"></script>
+<!-- Date range Plugin JavaScript -->
+<script th:src="@{/plugins/timepicker/bootstrap-timepicker.min.js}"></script>
+<script th:src="@{/plugins/bootstrap-daterangepicker/daterangepicker.js}"></script>
+
+<script th:src="@{/js/plugins-init/form-pickers-init.js}"></script>
+
+<div th:replace="fragment/toastr :: toastr">
+</body>
+</html>
